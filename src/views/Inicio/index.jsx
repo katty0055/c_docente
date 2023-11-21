@@ -3,6 +3,7 @@ import Login from './Login';
 import jwtDecode from 'jwt-decode';
 
 import Pagina from '../Pagina/Pagina';
+import { Link } from 'react-router-dom';
 
 
 function Inicio() {
@@ -22,6 +23,7 @@ function Inicio() {
 
   const onLogoutHandler = () => {
     setUserId(null)
+    console.log(`Codigo de usuario salido: ${userId}`)
     window.localStorage.removeItem('accessToken')
   };
 

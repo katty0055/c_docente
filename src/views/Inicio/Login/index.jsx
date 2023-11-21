@@ -96,7 +96,7 @@ const Login = ({ onLogin }) => {
             borderRadius: 2,
             borderStyle: "double",
             boxShadow: 4,
-            borderColor: "secondary.main",
+            borderColor: "primary.dark",
             pt:1,
             pb:2,
             display: "flex",
@@ -226,14 +226,14 @@ const Login = ({ onLogin }) => {
                   }}    
                 > 
                   <Typography
-                    variant="subtitle2"
+                    variant="body2"
                     textAlign= "center"
                     fontWeight= "regular"
                   >
                     Registrarse
                   </Typography> 
                   <Typography
-                    variant="subtitle2"
+                    variant="body2"
                     textAlign= "center"
                     fontWeight= "regular"
                     onClick={registroHandle}
