@@ -45,6 +45,9 @@ const theme = createTheme({
   typography: { 
     h1: {
         '@media (min-width:0px)': {
+          fontSize: '1.35rem',
+        },
+        '@media (min-width:300px)': {
           fontSize: '1.4rem',
         },
         '@media (min-width:600px)': {
@@ -59,6 +62,9 @@ const theme = createTheme({
     },
     h2: {
       '@media (min-width:0px)': {
+        fontSize: '1.25rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '1.3rem',
       },
       '@media (min-width:600px)': {
@@ -73,6 +79,9 @@ const theme = createTheme({
     },
     h3: {
       '@media (min-width:0px)': {
+        fontSize: '1.15rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '1.2rem',
       },
       '@media (min-width:600px)': {
@@ -87,6 +96,9 @@ const theme = createTheme({
     },
     h4: {
       '@media (min-width:0px)': {
+        fontSize: '1.05rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '1.1rem',
       },
       '@media (min-width:600px)': {
@@ -101,6 +113,9 @@ const theme = createTheme({
     },
     h5: {
       '@media (min-width:0px)': {
+        fontSize: '0.95rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '1rem',
       },
       '@media (min-width:600px)': {
@@ -115,7 +130,10 @@ const theme = createTheme({
     },
     h6: {
       '@media (min-width:0px)': {
-        fontSize: '0.9em',
+        fontSize: '0.85rem',
+      },
+      '@media (min-width:300px)': {
+        fontSize: '0.9rem',
       },
       '@media (min-width:600px)': {
         fontSize: '0.95rem',
@@ -129,6 +147,9 @@ const theme = createTheme({
     },
     body1: { 
       '@media (min-width:0px)': {
+        fontSize: '0.75rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '0.8rem',
       },
       '@media (min-width:600px)': {
@@ -143,6 +164,9 @@ const theme = createTheme({
     },
     body2: { 
       '@media (min-width:0px)': {
+        fontSize: '0.65rem',
+      },
+      '@media (min-width:300px)': {
         fontSize: '0.7rem',
       },
       '@media (min-width:600px)': {
@@ -157,7 +181,10 @@ const theme = createTheme({
     },
     subtitle1: { 
       '@media (min-width:0px)': {
-        fontSize: '0.6em',
+        fontSize: '0.55rem',
+      },
+      '@media (min-width:300px)': {
+        fontSize: '0.6rem',
       },
       '@media (min-width:600px)': {
         fontSize: '0.65rem',
@@ -171,7 +198,10 @@ const theme = createTheme({
     },
     subtitle2: { 
       '@media (min-width:0px)': {
-        fontSize: '0.5em',
+        fontSize: '0.45rem',
+      },
+      '@media (min-width:300px)': {
+        fontSize: '0.5rem',
       },
       '@media (min-width:600px)': {
         fontSize: '0.55rem',
@@ -188,7 +218,7 @@ const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      xm: 350,
+      xm: 300,
       sm: 600,
       md: 900,
       lg: 1200,
