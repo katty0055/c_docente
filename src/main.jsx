@@ -23,7 +23,7 @@ import theme from './components/Temas/theme.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>   
-   {/* <FondoConParticulas/> */}
+   <FondoConParticulas/>
     {/* para usar los mismos estilos en todos los componentes */}
     <ThemeProvider theme={theme}>    
       <CssBaseline/>      
