@@ -1,25 +1,65 @@
-import { useState } from 'react';
+import { styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import AppBarComponent from '../../components/Navbar/NavbarEscritorio/AppBarComponent';
-import DrawerComponent from '../../components/Navbar/NavbarEscritorio/DrawerComponent';
+import { Hidden} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Hidden } from '@mui/material';
-import AppBarMovil from '../../components/Navbar/NavBarMovil/AppBarMovil';
-import DrawerContentMovil from '../../components/Navbar/NavBarMovil/DrawerContentMovil';
+import { useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DrawerComponent from '../../components/Navbar/NavbarEscritorio/DrawerComponent';
+import AppBarMovil from '../../components/Navbar/NavBarMovil/AppBarMovil';
+import DrawerContentMovil from '../../components/Navbar/NavBarMovil/DrawerContentMovil';
+import AppBarComponent from '../../components/Navbar/NavbarEscritorio/AppBarComponent';
+import Logo from '../../assets/fpuna.png'
+import { useMediaQuery } from '@mui/material';
+import { useUserData } from '../../state/useState';
+import { Outlet } from 'react-router-dom';
+import ConcursoCard from '../../components/ConcursosCard/ConcursoCard';
+import { useLocation } from 'react-router-dom';
+
+
+const drawerWidth = 200;
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => {
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    return {
+      flexGrow: 1,  
+      paddingTop: theme.spacing(6),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginLeft: isSmallScreen ? 0 : `-${drawerWidth}px`,     
+      ...(open && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: !isSmallScreen ? 0 : `-${drawerWidth}px`,
+      }),
+    };
+  },
+);
 
 export default function Pagina() {
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const {userId,clearUserId } = useUserData();
+  const location = useLocation();
+
+  const onLogout = () => {
+    clearUserId();
+    console.log(`Codigo de usuario salido: ${userId}`)
+    window.localStorage.removeItem('accessToken')
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setOpen(!open);
   };
 
   const handleDrawerClose = () => {
@@ -31,11 +71,13 @@ export default function Pagina() {
       title: "Perfil",
       path: "perfil",
       icon: <AccountCircleIcon/>,
+      onClick: onLogout
     },
     {
       title: "Salir",
-      path: "salir",
+      path: "/",
       icon: <LogoutIcon/>,
+      onClick: onLogout
     },
   ];
 
@@ -44,58 +86,49 @@ export default function Pagina() {
       title: "Menu1",
       path: "menu1",
       icon: <MenuIcon/>,
+      onClick: onLogout
     },
     {
       title: "Menu2",
       path: "cargar_documentos",
       icon: <MenuIcon/>,
+      onClick: onLogout
     },
   ];
 
-  const tituloBarra = "Politecnica2"
-
-
-
+  const tituloBarra = <img src={Logo} alt="Logo" style={{ width: 70, height: 'auto', display:'flex', flexShrink: 2 }} />;
+ 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Hidden smUp>
+    <>
+    <Box sx={{ display: 'flex', position:'relative', border:4, height:'100vh' }}>
+    <Hidden smUp>
        <AppBarMovil handleDrawerToggle={handleDrawerToggle} tituloBarra = {tituloBarra}/>
        <DrawerContentMovil mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} navLinks = {navLinks} menuLinks = {menuLinks} />
       </Hidden>
-      <Hidden smDown>
-        <AppBarComponent open={open} handleDrawerOpen={handleDrawerOpen} navLinks = {navLinks}  tituloBarra = {tituloBarra}/>
-        {/* Renderiza el DrawerComponent como un drawer en pantallas más grandes */}
-        <DrawerComponent open={open} handleDrawerClose={handleDrawerClose} menuLinks = {menuLinks}/>
-      </Hidden>
-      <Box component="main" 
-        sx={{ 
-          flexGrow: 1, 
-          p: 3,
-          pt: 10,
-        }}>
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-        </Typography>
-      </Box>
+      <Hidden smDown>      
+      <AppBarComponent  open={open} handleDrawerOpen={handleDrawerOpen} navLinks = {navLinks}  tituloBarra = {tituloBarra}/>
+      <DrawerComponent open={open} handleDrawerClose={handleDrawerClose} menuLinks = {menuLinks} />
+      </Hidden>     
+      <Main open={open} >
+        <Box
+         sx={{
+          height:'100%',
+          borderColor: "primary.dark",
+          display:'flex',
+          flexDirection:'column',
+          gap:2,
+          boxSizing:'border-box',
+          overflow:'auto',        
+        }}
+        >      
+      {location.pathname === '/concurso_docente/' ? (
+              <ConcursoCard />
+            ) : (
+              <Outlet />
+            )}
+        </Box>     
+      </Main>
     </Box>
+    </>
   );
 }
