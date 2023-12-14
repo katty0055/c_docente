@@ -1,12 +1,12 @@
 //componente donde estan las rutas
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
 //import PostulacionForm from "../views/Postulacion/PostulacionForm";
-import Postulacion from "../views/Postulacion/Postulacion";
+import StepperComponent from "../views/Postulacion";
 import Pagina from "../views/Pagina/Pagina";
 //import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
-import StepperComponent from "../views/Postulacion/StepperComponentEscritorio";
-import StepperComponentM from "../views/Postulacion/StepperComponentMovil";
+//import StepperComponent from "../views/Postulacion/StepperComponentEscritorio";
+//import StepperComponentM from "../views/Postulacion/StepperComponentMovil";
 
 const router = createBrowserRouter([
     // Definición de rutas
@@ -22,10 +22,10 @@ const router = createBrowserRouter([
                 path: 'postulacion2/',
                 element: <StepperComponent/>
             },
-            {
-                path: 'postulacion/',
-                element: <Postulacion/>
-            }, 
+            // {
+            //     path: 'postulacion/',
+            //     element: <Postulacion/>
+            // }, 
         ],
     },
     // {

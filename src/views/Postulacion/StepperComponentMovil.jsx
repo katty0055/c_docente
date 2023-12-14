@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Stepper, Step, StepLabel, StepContent, Button, Typography } from '@mui/material';
-import Postulacion from './Postulacion';  // Importa tu componente Postulacion
-import DatosPersonales from './Postulacion';  // Reemplaza con el componente real
-import Documentos from './Postulacion';  // Reemplaza con el componente real
+import Postulacion from './FormularioInternoPuesto';  // Importa tu componente Postulacion
+import DatosPersonales from './FormularioInternoPuesto';  // Reemplaza con el componente real
+import Documentos from './FormularioInternoPuesto';  // Reemplaza con el componente real
 
 const getSteps = () => ['Datos del Puesto', 'Datos Personales', 'Documentos'];
 
