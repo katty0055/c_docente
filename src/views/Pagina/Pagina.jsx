@@ -90,7 +90,7 @@ export default function Pagina() {
     },
     {
       title: "Menu2",
-      path: "menu2",
+      path: "cargar_documentos",
       icon: <MenuIcon/>,
       onClick: onLogout
     },

@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 //import PostulacionForm from "../views/Postulacion/PostulacionForm";
 import StepperComponent from "../views/Postulacion";
 import Pagina from "../views/Pagina/Pagina";
+import CargarDocumentos from "../views/CargarDocumentos";
 //import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
 //import StepperComponent from "../views/Postulacion/StepperComponentEscritorio";
@@ -28,6 +29,12 @@ const router = createBrowserRouter([
             // }, 
         ],
     },
+    {
+        path: 'cargar_documentos',
+        element: <CargarDocumentos/>
+    },
+    
+
     // {
     //     path: 'postulacion/', // Agrega el parámetro dinámico
     //     element: <PostulacionForm/>
