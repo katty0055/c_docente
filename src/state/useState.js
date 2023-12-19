@@ -13,4 +13,10 @@ export const useConcursoData = create((set) => ({
   setConcursoData: (data) => set({ concursoData: data }),
 }));
 
+// export const useDocumentoData = create((set) => ({
+//   documentos: [], // Puedes inicializarlo con un array vacío o con los datos iniciales que necesites.
+//   agregarDocumento: (documento) => set((state) => ({ documentos: [...state.documentos, documento] })),
+//   eliminarDocumento: (index) => set((state) => ({ documentos: state.documentos.filter((_, i) => i !== index) })),
+//   limpiarDocumentos: () => set({ documentos: [] }),
+// }));
 

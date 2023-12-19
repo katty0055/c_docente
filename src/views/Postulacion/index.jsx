@@ -3,8 +3,9 @@ import { Stepper, Step, StepLabel, Button, Typography, Box, useMediaQuery, Grid 
 import FormularioInternoDocumento from './FormularioInternoDocumentos';
 import FormularioInternoPersona from './FormularioInternoPersona';
 import FormularioInternoPuesto from './FormularioInternoPuesto';
-import { useConcursoData, useUserData } from '../../state/useState';
+import { useConcursoData, useUserData} from '../../state/useState';
 import { format } from 'date-fns';
+
 
 const getSteps = () => ['Datos del Puesto', 'Datos Personales', 'Documentos'];
 
@@ -123,7 +124,7 @@ const StepperComponent = () => {
       .filter(puesto =>  puesto.area && puesto.area.descripcion_area  === selectedArea && puesto.turno)
       .map(puesto => puesto.turno.descripcion_turno);
 
-    console.log(turnosFiltrados)
+    //console.log(turnosFiltrados)
     // Elimina duplicados en el array de dependencias
     const turnosUnicos = [...new Set(turnosFiltrados)];
     // Actualiza el estado de dependencias
@@ -134,7 +135,6 @@ const StepperComponent = () => {
   
 
   const getFormData= () => {
-    console.log('hola')
     // Filtra los puestos que cumplen con las condiciones    
     const puestoEncontrado = puestos.find(
       (puesto) =>
@@ -145,8 +145,8 @@ const StepperComponent = () => {
         puesto.sede?.descripcion_sede === selectedSede
     );
     if (puestoEncontrado) {
-      console.log('ID del puesto encontrado:', puestoEncontrado);
-      console.log(datosPostulacion);
+      // console.log('ID del puesto encontrado:', puestoEncontrado);
+      // console.log(datosPostulacion);
       setDatosPostulacion({
         "anho": puestoEncontrado.anho_puesto,
         "fecha_postulacion": today.toISOString(),
@@ -155,25 +155,7 @@ const StepperComponent = () => {
         "usuario": userId,
         "puesto": puestoEncontrado.puesto_id,  
       });
-      console.log(datosPostulacion);
-         // Realiza la solicitud POST a la API
-  //  fetch('http://127.0.0.1:8000/concurso/postulacion/', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(datosPostulacion),
-  // })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log('Respuesta del servidor:', data);
-  //     // Aquí puedes manejar la respuesta del servidor, como actualizar la interfaz de usuario o redirigir a otra página
-  //   })
-  //   .catch(error => {
-  //     console.error('Error al enviar la postulación:', error);
-  //   });
-  //   } else {
-  //     console.log('No se encontró un puesto que cumpla con las condiciones.');
+      //console.log(datosPostulacion);       
    }
    };
 
@@ -284,9 +266,6 @@ const StepperComponent = () => {
   ];
 
 
-
-
-
   //Persona
   const [datosPersona, setDatosPersona] = useState('');
 
@@ -295,7 +274,7 @@ const StepperComponent = () => {
       .then(response => response.json())
       .then(data => {
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
-        console.log('usuario',data);
+       // console.log('usuario',data);
         setDatosPersona(data);  // Almacena los puestos en el estado
 
       })
@@ -314,12 +293,6 @@ function formatearFecha(fecha) {
   // Formatear la fecha (ejemplo: 'dd-MM-yyyy')
   return format(new Date(fecha), 'dd-MM-yyyy');
 }
-
-// // Ejemplo de uso
-// const fecha = '2023-01-15'; // Puedes reemplazar esto con tu fecha real
-// const fechaFormateada = formatearFecha(fecha);
-// console.log(fechaFormateada);
-
 
   const inputTextPersona= [
     {
@@ -389,30 +362,6 @@ function formatearFecha(fecha) {
     },
   ];
   
-
-  // useEffect(() => {
-  //   const puestoEncontrado = puestos.find(
-  //     (puesto) =>
-  //       puesto.cargo.descripcion_cargo === selectedCargo &&
-  //       puesto.direccion.descripcion_direccion === selectedDireccion &&
-  //       puesto.dependencia?.descripcion_dependencia === selectedDependencia &&
-  //       puesto.area?.descripcion_area === selectedArea
-  //   );
-  //   if (puestoEncontrado) {
-  //     console.log('ID del puesto encontrado:', puestoEncontrado);
-  //     console.log(datosPostulacion);
-  //     setDatosPostulacion({
-  //       "anho": puestoEncontrado.anho_puesto,
-  //       "fecha_postulacion": today.toISOString(),
-  //       "concurso": puestoEncontrado.concurso.concurso_id,
-  //       "cargo": puestoEncontrado.cargo.cargo_id,
-  //       "usuario": userId,
-  //       "puesto": puestoEncontrado.puesto_id,  
-  //     });
-  //     console.log(datosPostulacion);
-  //   }
-  // },[puestos,datosPostulacion,selectedArea,selectedCargo, selectedDependencia, selectedDireccion, userId, today]);
-  
   //Documentos
   
 
@@ -431,10 +380,6 @@ function formatearFecha(fecha) {
   ];
 
 
-
-
-
-
   //Caja Externa
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
@@ -451,13 +396,65 @@ function formatearFecha(fecha) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleFinish = () => {
-    // Aquí puedes implementar la lógica que deseas ejecutar al hacer clic en "Terminar"
-    // Por ejemplo, puedes mostrar un mensaje en la consola o en la interfaz de usuario
-    console.log('¡Formulario terminado!');
+  const [selectedFiles, setSelectedFiles] = useState(new Array(inputTextDocumento[0].documentos.length).fill(null));
+
+
+  const handleFinish = async () => {
+    //console.log(selectedFiles);
+  
+    try {
+      // Parte 1: Realizar la postulación
+      const postulacionResponse = await fetch('http://127.0.0.1:8000/concurso/postulacion/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosPostulacion), // Ajusta los datos de postulación según tus necesidades
+      });
+  
+      if (postulacionResponse.ok) {
+        const postulacionData = await postulacionResponse.json();
+       // console.log('Respuesta de postulación:', postulacionData);
+  
+        // Obtener el ID de la postulación
+        const postId = postulacionData.postulacion_id;
+  
+        // Parte 2: Guardar los archivos después de la postulación
+        const formData = new FormData();
+  
+        // Utilizar el ID de la postulación como nombre de la carpeta
+        const nombreCarpeta = `Postulacion_${postId}`;
+        formData.append('nombreCarpeta', nombreCarpeta);
+  
+        // Agregar archivos al FormData
+        for (const file of selectedFiles) {
+          formData.append('archivos', file);
+        }
+  
+        const archivosResponse = await fetch('http://localhost:3000/crearcarpeta', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        if (archivosResponse.ok) {
+          const archivosData = await archivosResponse.json();
+          console.log('Respuesta de carga de archivos:', archivosData);
+        } else {
+          const archivosErrorData = await archivosResponse.json();
+          console.error('Error en la carga de archivos:', archivosErrorData.error);
+          // Manejar el error de carga de archivos si es necesario
+        }
+      } else {
+        const postulacionErrorData = await postulacionResponse.json();
+        console.error('Error en la postulación:', postulacionErrorData.error);
+        // Manejar el error de postulación si es necesario
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud:', error);
+    }
   };
-
-
+  
+  
 
   const getStepContent = (step) => {
     switch (step) {
@@ -466,8 +463,12 @@ function formatearFecha(fecha) {
       case 1:
          return <FormularioInternoPersona inputText={inputTextPersona} />;
       case 2:
-        console.log(inputTextDocumento[0].documentos)
-         return <FormularioInternoDocumento inputText={inputTextDocumento[0].documentos} />;
+        //console.log(inputTextDocumento[0].documentos)
+         return  <FormularioInternoDocumento
+         inputText={inputTextDocumento[0].documentos}
+         selectedFiles={selectedFiles}
+         setSelectedFiles={setSelectedFiles}
+       />
       default:
         return 'Unknown step';
     }
@@ -477,7 +478,7 @@ function formatearFecha(fecha) {
   return (
     <Grid item container 
       xs={12} sm={11} md ={8}
-      justifyContent={'space-around'}
+      //justifyContent={'space-around'}
       sx={{ 
         // width: '90%', 
         borderRadius: 2,
@@ -485,7 +486,6 @@ function formatearFecha(fecha) {
         boxShadow: 4,
         borderColor: "primary.dark",
         m: 'auto', 
-        // height: '90%',
         backgroundColor: 'primary.contrastText',
         display:'flex',
         flexDirection:'column',
@@ -552,7 +552,7 @@ function formatearFecha(fecha) {
           <Button
             variant="contained"
             color="primary"
-            onClick={handleFinish} // Agrega una nueva función para manejar la finalización
+            onClick={handleFinish}  // Agrega una nueva función para manejar la finalización
             sx={{ marginRight: 2 }}
           >
             Terminar

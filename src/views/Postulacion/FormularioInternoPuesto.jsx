@@ -11,6 +11,7 @@ const FormularioInternoPuesto = ({inputText}) => {
         justifyContent={'space-around'}
         sx={{
             //border: 4,
+           
             position:'relative',
             borderColor: "primary.dark",
             display:'flex',
@@ -40,6 +41,7 @@ const FormularioInternoPuesto = ({inputText}) => {
               size={window.innerWidth >= 900 ? "medium" : "small"}
               required
               sx={{
+                pointerEvents: item.valor ? 'none' : 'auto',
                 // width: item.width,
                 background: theme.palette.primary.contrastText,
               }}
@@ -57,6 +59,7 @@ const FormularioInternoPuesto = ({inputText}) => {
                 size={window.innerWidth >= 900 ? 'medium' : 'small'}
                 required
                 sx={{
+                  pointerEvents: item.valor ? 'none' : 'auto',
                   background: theme.palette.primary.contrastText,
                   // width: item.width,
                 }}

@@ -1,22 +1,23 @@
-import  { useState } from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-
-const FormularioInternoDocumento = ({ inputText }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
-
+const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles }) => {
+ 
   const handleDrop = (event) => {
     event.preventDefault();
-    const files = event.dataTransfer.files;
-    // Obtén el primer archivo soltado
-    const selected = files[0];
-    // Actualiza el estado con el archivo seleccionado
-    setSelectedFile(selected);
   };
 
   const handleDragOver = (event) => {
     event.preventDefault();
+  };
+
+  const handleFileChange = (event, index) => {
+    const file = event.target.files[0];
+
+    const newSelectedFiles = [...selectedFiles];
+    newSelectedFiles[index] = file;
+    setSelectedFiles(newSelectedFiles);
   };
 
   return (
@@ -24,6 +25,7 @@ const FormularioInternoDocumento = ({ inputText }) => {
       item
       container
       justifyContent={'space-around'}
+      alignItems={'center'}
       xs={12}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
@@ -37,14 +39,16 @@ const FormularioInternoDocumento = ({ inputText }) => {
         boxSizing: 'border-box',
         overflow: 'auto',
         padding: 2,
-        mx: 'auto',
+        mx: 'auto',       
       }}
     >
-      {inputText.map((item) => (
+      {inputText.map((item, index) => (
         <Box
+          xs={12} xm={11} sm={6} md={4}
+          component={Grid}
+          item container
           key={item}
           sx={{
-            width: { xs: '100%', xm: '90%', sm: 220, md: 250, lg: 320 },
             height: 150,
             border: 4,
             borderRadius: 2,
@@ -54,6 +58,7 @@ const FormularioInternoDocumento = ({ inputText }) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+          
           }}
         >
           <Typography
@@ -65,18 +70,34 @@ const FormularioInternoDocumento = ({ inputText }) => {
           >
             {item}
           </Typography>
-          <Box sx={{ p: 0, height: '13%' }}>
+          {selectedFiles[index] ? (
+            <>
+              <UploadFileIcon sx={{ fontSize: 60, mx: 'auto' }} />
+              <Typography variant="body2" textAlign="center">
+                {selectedFiles[index].name}
+              </Typography>
+            </>
+          ) : null}
+          <Box
+            sx={{
+              p: 0,
+              height: '28%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             {/* Campo de entrada de archivos */}
-            <input
-              type="file"
-              onChange={(e) => setSelectedFile(e.target.files[0])}
-            />
+            <Button fullWidth variant="contained" component="label">
+              Subir archivo
+              <input
+                type="file"
+                multiple
+                hidden
+                onChange={(e) => handleFileChange(e, index)}
+              />
+            </Button>
           </Box>
-          {selectedFile && (
-            <Typography variant="body2" textAlign="center">
-              Archivo seleccionado: {selectedFile.name}
-            </Typography>
-          )}
         </Box>
       ))}
     </Grid>
@@ -85,6 +106,7 @@ const FormularioInternoDocumento = ({ inputText }) => {
 
 FormularioInternoDocumento.propTypes = {
   inputText: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedFiles: PropTypes.array.isRequired,
+  setSelectedFiles: PropTypes.func.isRequired,
 };
-
 export default FormularioInternoDocumento;

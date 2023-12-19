@@ -24,7 +24,7 @@ const Login = () => {
   }, [setUserId]);
   
   const onLoginHandler = (userId) => {
-    console.log(`Codigo de usuario: ${userId}`)
+    //console.log(`Codigo de usuario: ${userId}`)
     setUserId(userId)
     navigate('concurso_docente/');
   };
@@ -48,9 +48,8 @@ const Login = () => {
       .then((res) => res.json())     
       .then((tokenData) => {
         window.localStorage.setItem('accessToken', JSON.stringify(tokenData.access))
-        console.log(tokenData);
-        console.log(jwtDecode(tokenData.access).user_id);
-        console.log(jwtDecode(tokenData.access).user_id);
+        //console.log(tokenData);
+        //console.log(jwtDecode(tokenData.access).user_id);
         onLoginHandler(jwtDecode(tokenData.access).user_id)
       })
     } catch (error) {
