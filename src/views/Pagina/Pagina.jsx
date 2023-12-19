@@ -90,7 +90,7 @@ export default function Pagina() {
     },
     {
       title: "Menu2",
-      path: "menu2",
+      path: "cargar_documentos",
       icon: <MenuIcon/>,
       onClick: onLogout
     },
@@ -106,7 +106,7 @@ export default function Pagina() {
  
   return (
     <>
-    <Box sx={{ display: 'flex', position:'relative', border:4, height:'100vh' }}>
+    <Box sx={{ display: 'flex', position:'relative', height:'100vh' }}>
     <Hidden smUp>
        <AppBarMovil handleDrawerToggle={handleDrawerToggle} tituloBarra = {tituloBarra}/>
        <DrawerContentMovil mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} navLinks = {navLinks} menuLinks = {menuLinks} />
@@ -119,7 +119,8 @@ export default function Pagina() {
         <Box
          sx={{
           height:'100%',
-          borderColor: "primary.dark",
+          //border:4,
+          //borderColor: "primary.dark",
           display:'flex',
           flexDirection:'column',
           gap:2,
