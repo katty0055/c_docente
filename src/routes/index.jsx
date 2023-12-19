@@ -5,6 +5,10 @@ import Postulacion from "../views/Postulacion/Postulacion";
 import Pagina from "../views/Pagina/Pagina";
 import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
+import CrearConcurso from "../views/Concurso/CrearConcurso";
+import ConcursoCreado from "../views/Concurso/ConcursoCreado";
+import EditarConcurso from "../views/Concurso/EditarConcurso";
+import Editar from "../views/Concurso/editar";
 
 
 const router = createBrowserRouter([
@@ -24,7 +28,11 @@ const router = createBrowserRouter([
             {
                 path: 'postulacion2/',
                 element: <Postulacion/>
-            }, 
+            },
+            {
+                path: 'editar/',
+                element: <Editar/>,
+            },
         ],
     },
     // {
@@ -36,6 +44,24 @@ const router = createBrowserRouter([
     //     path: 'postulacion2/',
     //     element: <Postulacion/>
     // },
+    {
+        path: 'crear_concurso/',
+        element: <CrearConcurso/>
+    },
+     {
+         path: 'concurso_creado/',
+         element: <ConcursoCreado/>,
+
+     }
+     ,
+     {
+        //  path: 'editar_concurso/:concurso_id',
+        //  element: <EditarConcurso/>,
+        path: 'editar_concurso/',
+        element: <EditarConcurso/>,
+        },
+    
+        
     
 ]);
 

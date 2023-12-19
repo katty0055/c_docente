@@ -94,6 +94,12 @@ export default function Pagina() {
       icon: <MenuIcon/>,
       onClick: onLogout
     },
+    {
+      title: "Editar Concurso",
+      path: "editar/",
+      icon: <MenuIcon/>,
+      onClick: onLogout
+    }
   ];
 
   const tituloBarra = <img src={Logo} alt="Logo" style={{ width: 70, height: 'auto', display:'flex', flexShrink: 2 }} />;
