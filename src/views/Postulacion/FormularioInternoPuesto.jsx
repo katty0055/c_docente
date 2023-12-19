@@ -19,7 +19,7 @@ const FormularioInternoPuesto = ({inputText}) => {
             flexWrap: 'wrap',
             alignItems:'center',           
             boxSizing:'border-box',
-            overflow:'auto',   
+            //overflow:'auto',   
             // padding:2,  
             mx:'auto',   
         }}
@@ -28,7 +28,7 @@ const FormularioInternoPuesto = ({inputText}) => {
         <Grid item key={item.id}
            xs = {11}
           sx = {{
-            margin: 1,
+            margin: 0.5,
           }}
         >
           {((item.type === 'text') || (item.type === 'date')) && (
@@ -85,7 +85,6 @@ FormularioInternoPuesto.propTypes = {
       type: PropTypes.oneOf(['text', 'select','date']).isRequired,
       label: PropTypes.string.isRequired,
       valor: PropTypes.any.isRequired,
-      width: PropTypes.number.isRequired,
       options: PropTypes.arrayOf(PropTypes.string), // Ajusta según sea necesario
       handleChange: PropTypes.func, // Ajusta según sea necesario
     })
