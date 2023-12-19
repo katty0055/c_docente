@@ -19,7 +19,11 @@
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
     "jwt-decode": "^3.1.2",
+<<<<<<< HEAD
+    "npm": "^10.2.4",
+=======
     "npm": "^10.2.3",
+>>>>>>> b13a2abc33a921bae382fb83d9c4b822dfa711e1
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
