@@ -54,19 +54,6 @@ const StepperComponent = () => {
       });
   }, [concursoId]);
 
-
-  // const handleSedeChange = (event) => {
-  //   const selectedSede = event.target.value;
-  //   // Filtra las direcciones que pertenecen al cargo seleccionado
-  //   const sedesFiltradas = puestos
-  //     .filter(puesto => puesto.cargo.descripcion_cargo === selectedSede && puesto.cargo)
-  //     .map(puesto => puesto.cargo.descripcion_cargo);
-  //   // Elimina duplicados en el array de direcciones
-  //   const sedesUnicas = [...new Set(sedesFiltradas)];
-  //   // Actualiza el estado de dependencias
-  //   setSedes(sedesUnicas);
-  // };  
-
   const handleSedeChange = (event) => {
     const selectedSede = event.target.value;
     // Filtra las direcciones que pertenecen al cargo seleccionado
@@ -167,22 +154,19 @@ const StepperComponent = () => {
       id:"Concurso",
       label:"Concurso",
       valor:concursoData.denominacion_conc,
-      type:'text',
-      width: 7,
+      type:'text',   
     },
     {
       id:"Año",
       label:"Año",
       valor:concursoData.anho_concurso,
       type:'text',
-      width: 3,
     },
     {
         id:"Fecha Postulacion",
         label:"Fecha Postulacion",
         valor:formattedDate,
         type:'text',
-        width: 3,
     },
     {
       id:"Sede",
@@ -195,7 +179,6 @@ const StepperComponent = () => {
         handleSedeChange(event);   
         getFormData()                         
       },
-      width: 4,
     },
   
     {
@@ -209,7 +192,6 @@ const StepperComponent = () => {
         handleCargoChange(event);   
         getFormData()                         
       },
-      width: 4.5,
     },
     {
       id: 'Direccion',
@@ -222,7 +204,6 @@ const StepperComponent = () => {
         handleDireccionChange(event); // Llama a la nueva función al cambiar la dirección
         getFormData();
       },
-      width: 5.5,
     },
     {
       id: 'Dependencia',
@@ -235,7 +216,6 @@ const StepperComponent = () => {
         handleDependenciaChange(event);
         getFormData()    
       },
-      width: 5.5,
     },
     {
       id: 'Area',
@@ -248,7 +228,6 @@ const StepperComponent = () => {
         handleAreaChange(event); 
         getFormData()                              
       },
-      width: 5.5,
     }, 
     {
       id: 'Turno',
@@ -260,7 +239,6 @@ const StepperComponent = () => {
         setSelectedTurno(event.target.value);   
         getFormData()                              
       },
-      width: 5.5,
     },
    
   ];
@@ -397,7 +375,13 @@ function formatearFecha(fecha) {
   };
 
   const [selectedFiles, setSelectedFiles] = useState(new Array(inputTextDocumento[0].documentos.length).fill(null));
-
+  const [documento, setDocumento] = useState({
+    "path_documento": "",
+    "es_privado": false,
+    "estado_documento": "",
+    "vigente": false,
+    "tipo_documento": "",
+  })
 
   const handleFinish = async () => {
     //console.log(selectedFiles);
@@ -477,10 +461,9 @@ function formatearFecha(fecha) {
 
   return (
     <Grid item container 
-      xs={12} sm={11} md ={8}
-      //justifyContent={'space-around'}
-      sx={{ 
-        // width: '90%', 
+      xs={11} 
+      justifyContent={'space-between'}
+      sx={{         
         borderRadius: 2,
         borderStyle: "double",
         boxShadow: 4,
@@ -492,7 +475,7 @@ function formatearFecha(fecha) {
         position:'relative',
       }}>
         <Typography
-          variant="h1"
+          variant="h2"
           textAlign= "center"
           color="primary.main"
           fontWeight= "bold"
@@ -502,7 +485,7 @@ function formatearFecha(fecha) {
         </Typography> 
         
        <Stepper 
-        sx={{ margin: 2,}}
+        sx={{ margin: 1,}}
         activeStep={activeStep} orientation={isScreenSmall ? 'vertical' : 'horizontal'}>
         {steps.map((label) => (
           <Step key={label}>
@@ -515,8 +498,8 @@ function formatearFecha(fecha) {
           display:'flex',
           flexDirection:'column', 
           justifyContent:'space-around', 
-          // border:4,
-          // height: '70%'
+          //border:4,
+          height: '85%'
         }}>
         {getStepContent(activeStep)}
         <Box 
@@ -526,7 +509,8 @@ function formatearFecha(fecha) {
             marginY: 2, 
             marginX:4,
             // marginRight:5, 
-            // border:4 
+            //border:4, 
+            //height:'12%',
           }}>
 
           <Button

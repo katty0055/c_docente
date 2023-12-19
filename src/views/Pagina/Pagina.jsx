@@ -113,8 +113,7 @@ export default function Pagina() {
         <Box
          sx={{
           height:'100%',
-          //border:4,
-          //borderColor: "primary.dark",
+          borderColor: "primary.dark",
           display:'flex',
           flexDirection:'column',
           gap:2,

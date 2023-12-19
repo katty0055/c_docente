@@ -19,7 +19,7 @@ const FormularioInternoPersona = ({inputText}) => {
         flexWrap: 'wrap',
         alignItems:'center',           
         boxSizing:'border-box',
-        overflow:'auto',   
+        //overflow:'auto',   
         // padding:2,  
         mx:'auto',   
     }}
@@ -28,7 +28,7 @@ const FormularioInternoPersona = ({inputText}) => {
     <Grid item key={item.id}
        xs = {11}
       sx = {{
-        margin: 1,
+        margin: 0.5,
       }}
     >
       {((item.type === 'text') || (item.type === 'date')) && (

@@ -37,7 +37,7 @@ const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles
         flexWrap: 'wrap',
         alignItems: 'center',
         boxSizing: 'border-box',
-        overflow: 'auto',
+        //overflow: 'auto',
         padding: 2,
         mx: 'auto',       
       }}
