@@ -347,12 +347,12 @@ function formatearFecha(fecha) {
     {
       id:'Auxiliar de Enseñanza',
       documentos: [
-        'Cedula de Identidad',
-        'Curriculum Vitae',
-        'Titulo_de Grado',
-        'Antecedentes Disciplinarios',
-        'Foto Carnet',
-        'Otro/s',
+        'CEDULA DE IDENTIDAD',
+        'CURRICULUM VITAE',
+        'TITULO DE GRADO',
+        'ANTECEDENTES DISCIPLINARIOS',
+        'FOTO CARNET',
+        'OTRO',
       ],
     },   
   ];
@@ -375,13 +375,6 @@ function formatearFecha(fecha) {
   };
 
   const [selectedFiles, setSelectedFiles] = useState(new Array(inputTextDocumento[0].documentos.length).fill(null));
-  const [documento, setDocumento] = useState({
-    "path_documento": "",
-    "es_privado": false,
-    "estado_documento": "",
-    "vigente": false,
-    "tipo_documento": "",
-  })
 
   const handleFinish = async () => {
     //console.log(selectedFiles);
@@ -421,8 +414,64 @@ function formatearFecha(fecha) {
         });
   
         if (archivosResponse.ok) {
-          const archivosData = await archivosResponse.json();
+          const archivosData = await archivosResponse.json();      
           console.log('Respuesta de carga de archivos:', archivosData);
+          console.log('Respuesta de carga de archivos2:', archivosData.urlCarpeta);
+
+
+       
+      // Parte 3: Guardar datos del documento en la base de datos para cada archivo
+      for (const archivo of archivosData.archivos) {
+        const documentoData = {
+          path_documento: `${archivosData.urlCarpeta}/${archivo}`,
+          //path_documento: 'hola/hola',
+          es_privado: false,
+          estado_documento: 'activo', // Ajusta según tus necesidades
+          vigente: false,
+          tipo_documento: null,
+        };
+        
+        const guardarDocumentoResponse = await fetch('http://127.0.0.1:8000/concurso/documento/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(documentoData),
+        });
+
+        if (guardarDocumentoResponse.ok) {
+          console.log(`Documento "${archivo}" guardado exitosamente en la base de datos.`);
+        } else {
+          const guardarDocumentoErrorData = await guardarDocumentoResponse.json();
+          console.error(`Error al guardar documento "${archivo}" en la base de datos:`, guardarDocumentoErrorData.error);
+          // Manejar el error si es necesario
+        }
+      }
+
+
+
+
+         // Parte 3: Guardar datos del documento en la base de datos para cada archivo
+        
+          // const documentoData = {
+          //   path_documento: `hola/hola`,
+          //   es_privado: false,
+          //   estado_documento: '', // Ajusta según tus necesidades
+          //   vigente: false,
+          //   tipo_documento: null,
+          // };
+  
+          // const documentoResponse = await fetch('http://127.0.0.1:8000/concurso/documento/', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(documentoData), // Ajusta los datos de postulación según tus necesidades
+          // });
+  
+         
+        
+
         } else {
           const archivosErrorData = await archivosResponse.json();
           console.error('Error en la carga de archivos:', archivosErrorData.error);

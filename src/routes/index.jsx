@@ -6,16 +6,14 @@ import Pagina from "../views/Pagina/Pagina";
 import CargarDocumentos from "../views/CargarDocumentos";
 //import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
-<<<<<<< HEAD
 import CrearConcurso from "../views/Concurso/CrearConcurso";
 import ConcursoCreado from "../views/Concurso/ConcursoCreado";
 import EditarConcurso from "../views/Concurso/EditarConcurso";
 import Editar from "../views/Concurso/editar";
+import ArchivosPostulacion from "../views/RecuperarArchivos/RecuperarArchivo";
 
-=======
 //import StepperComponent from "../views/Postulacion/StepperComponentEscritorio";
 //import StepperComponentM from "../views/Postulacion/StepperComponentMovil";
->>>>>>> b13a2abc33a921bae382fb83d9c4b822dfa711e1
 
 const router = createBrowserRouter([
     // Definición de rutas
@@ -29,21 +27,19 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'postulacion2/',
-<<<<<<< HEAD
-                element: <Postulacion/>
+              element: <StepperComponent/>
             },
             {
                 path: 'editar/',
                 element: <Editar/>,
             },
-=======
-                element: <StepperComponent/>
+            {
+                path: 'recuperar_archivo/',
+                element: <ArchivosPostulacion/>,
             },
-            // {
-            //     path: 'postulacion/',
-            //     element: <Postulacion/>
-            // }, 
->>>>>>> b13a2abc33a921bae382fb83d9c4b822dfa711e1
+          
+          
+
         ],
     },
     {

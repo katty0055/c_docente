@@ -99,6 +99,12 @@ export default function Pagina() {
       path: "editar/",
       icon: <MenuIcon/>,
       onClick: onLogout
+    },
+    {
+      title: "Recuperar documentos",
+      path: "recuperar_archivo/",
+      icon: <MenuIcon/>,
+      onClick: onLogout
     }
   ];
 
