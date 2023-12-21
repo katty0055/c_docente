@@ -294,7 +294,10 @@ const editar = () => {
         {
             id: "Tipo Concurso",
             label: "Tipo Concurso",
-			valor: ((tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso)) || {}).descripcion_tipo_concurso,
+			valor: tipoConcurso.length > 0 && estados.tipo_concurso 
+			? tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso 
+			: "",
+			//valor: ((tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso)) || {}).descripcion_tipo_concurso,
 			//valor: tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso,
 			//valor: tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso,//datoConcurso.tipo_concurso,)
             //valor: estados.tipo_concurso,//datoConcurso.tipo_concurso,
@@ -312,7 +315,9 @@ const editar = () => {
         {
             id: "Modalidad Concurso",
             label: "Modalidad Concurso",
-            valor: estados.modalidad_concurso,//datoConcurso.modalidad_concurso,
+            //valor: estados.modalidad_concurso,//datoConcurso.modalidad_concurso,
+			valor: modalidadConcurso.length > 0 && estados.modalidad_concurso
+			? modalidadConcurso.find(modalidad => modalidad.modalidad_concurso_id === estados.modalidad_concurso).descripcion_modalidad_concurso : "",
             type: 'select',
             options: modalidadConcurso.map(modalidad => modalidad.descripcion_modalidad_concurso),
             handleChange: (event) => {
@@ -361,8 +366,8 @@ const editar = () => {
 			</Typography>
 		
 		{inputText.map((item) => (
-			<Grid item key={item.id}>
-			{item.type === 'date' ? (
+			//<Grid item key={item.id}>
+			item.type === 'date' ? (
 				<Grid container justifyContent="space-between">
 				<Grid item xs={6}>
 					<TextField
@@ -468,8 +473,8 @@ const editar = () => {
 						</Select>
 					</FormControl>
 						
-			)}
-			</Grid>
+			)
+			//</Grid>
 		))}
 
 			<Button size="small" variant="contained" color="primary" 

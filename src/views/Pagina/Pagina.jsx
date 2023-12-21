@@ -95,8 +95,8 @@ export default function Pagina() {
       onClick: onLogout
     },
     {
-      title: "Editar Concurso",
-      path: "editar/",
+      title: "Crear Concurso",
+      path: "crear_concurso/",
       icon: <MenuIcon/>,
       onClick: onLogout
     },

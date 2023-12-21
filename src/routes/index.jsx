@@ -37,9 +37,14 @@ const router = createBrowserRouter([
                 path: 'recuperar_archivo/',
                 element: <ArchivosPostulacion/>,
             },
-          
-          
-
+            {
+                path: 'crear_concurso/',
+                element: <CrearConcurso/>
+            },
+            // {
+            //     path: 'postulacion/',
+            //     element: <Postulacion/>
+            // }, 
         ],
     },
     {
@@ -57,10 +62,7 @@ const router = createBrowserRouter([
     //     path: 'postulacion2/',
     //     element: <Postulacion/>
     // },
-    {
-        path: 'crear_concurso/',
-        element: <CrearConcurso/>
-    },
+   
      {
          path: 'concurso_creado/',
          element: <ConcursoCreado/>,
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
         //  path: 'editar_concurso/:concurso_id',
         //  element: <EditarConcurso/>,
         path: 'editar_concurso/',
-        element: <EditarConcurso/>,
+        element: <Editar/>,
         },
     
         
