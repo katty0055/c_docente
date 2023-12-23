@@ -26,7 +26,7 @@ const FormularioInternoPuesto = ({inputText}) => {
       >
                {inputText.map((item) => (
         <Grid item key={item.id}
-           xs = {11}
+          xs = {11}
           sx = {{
             margin: 0.5,
           }}

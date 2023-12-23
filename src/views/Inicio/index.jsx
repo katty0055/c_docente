@@ -82,14 +82,15 @@ const Login = () => {
     <>
      <Grid item container fixed="true"
      xs={10} sm={9} md={8} lg={7}
-     justifyContent="center"
+     justifyContent='center'
      alignItems="center"
      height="100vh"
      sx={{
         mx: "auto",
         position: "relative",
-        minWidth: 220,
-        minHeight: 290,
+        // minWidth: 220,
+        // minHeight: 290,
+        //border:4,
      }}
      >
        <Grid item 

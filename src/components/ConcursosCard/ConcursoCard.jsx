@@ -49,7 +49,7 @@ const ConcursoCard = () =>{
       const handlePostularClick = (concurso) => {
         // Redirigir a la ruta de postulación
         concursoDataStore.setConcursoData(concurso);
-        navigate(`postulacion2`);
+        navigate(`postulacion`);
       };
     return(
         <Box sx={{ 

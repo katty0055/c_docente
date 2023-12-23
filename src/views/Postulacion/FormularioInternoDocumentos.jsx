@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
@@ -19,6 +19,7 @@ const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles
     newSelectedFiles[index] = file;
     setSelectedFiles(newSelectedFiles);
   };
+  const isScreenSmall = useMediaQuery('(max-width:600px)');
 
   return (
     <Grid
@@ -33,23 +34,24 @@ const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles
         position: 'relative',
         borderColor: 'primary.dark',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         flexWrap: 'wrap',
         alignItems: 'center',
         boxSizing: 'border-box',
         //overflow: 'auto',
         padding: 2,
-        mx: 'auto',       
+        mx: 'auto',        
+        my: {xs: 0, xm:3, sm:0 }      
       }}
     >
       {inputText.map((item, index) => (
         <Box
-          xs={12} xm={11} sm={6} md={4}
+          xs={12} xm={12} sm={6} md={4}
           component={Grid}
           item container
           key={item}
           sx={{
-            height: 150,
+            height: {xs: 105, xm:105, sm:150 } ,
             border: 4,
             borderRadius: 2,
             borderStyle: 'double',
@@ -72,8 +74,17 @@ const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles
           </Typography>
           {selectedFiles[index] ? (
             <>
-              <UploadFileIcon sx={{ fontSize: 60, mx: 'auto' }} />
-              <Typography variant="body2" textAlign="center">
+              <UploadFileIcon sx={{ fontSize: {xs: 30, xm:30, sm:50 }, mx: 'auto' }} />
+              <Typography variant="body2" textAlign="center" component="div"
+                 sx={{
+                  m:'auto',
+                 overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  //maxHeight: '2em', // Ajusta según tu preferencia
+                  maxWidth: { xs:240,xm:250,sm:350}
+                }}
+              >
                 {selectedFiles[index].name}
               </Typography>
             </>
@@ -88,7 +99,9 @@ const FormularioInternoDocumento = ({ inputText, selectedFiles, setSelectedFiles
             }}
           >
             {/* Campo de entrada de archivos */}
-            <Button fullWidth variant="contained" component="label">
+            <Button fullWidth variant="contained" component="label"
+               size={isScreenSmall ? 'small' : 'medium'}
+            >
               Subir archivo
               <input
                 type="file"
