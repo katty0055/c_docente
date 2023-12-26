@@ -10,7 +10,7 @@ const FormularioInternoPuesto = ({inputText}) => {
         xs={12} 
         justifyContent={'space-around'}
         sx={{
-            //border: 4,
+            // border: 4,
            
             position:'relative',
             borderColor: "primary.dark",
@@ -21,7 +21,7 @@ const FormularioInternoPuesto = ({inputText}) => {
             boxSizing:'border-box',
             //overflow:'auto',   
             // padding:2,  
-            mx:'auto',   
+            // mx:'auto',   
         }}
       >
                {inputText.map((item) => (
