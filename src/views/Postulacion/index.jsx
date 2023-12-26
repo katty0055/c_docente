@@ -533,6 +533,7 @@ function formatearFecha(fecha) {
     <Grid item container 
       xs={12} xm={12} sm ={11}
       justifyContent={'space-between'}
+      alignItems={'center'}
       sx={{         
         borderRadius: 2,
         borderStyle: "double",
@@ -541,8 +542,10 @@ function formatearFecha(fecha) {
         m: 'auto', 
         backgroundColor: 'primary.contrastText',
         display:'flex',
-        flexDirection: {xs :'row', xm:'row', sm:'column' } , 
+        flexDirection: {xs :'row', xm:'row', sm:'row' } , 
         position:'relative',
+        boxSizing:'border-box',
+        
       }}>
         <Typography
           variant="h2"
@@ -551,12 +554,13 @@ function formatearFecha(fecha) {
           fontWeight= "bold"
           marginTop={2}
           mx={'auto'}
+          // border={4}
         > 
           Formulario de postulacion
         </Typography> 
         
        <Stepper 
-        sx={{ margin: {xs :'auto', xm:'auto', sm:2 },}}
+        sx={{ margin: {xs :'auto', xm:'auto', sm:2,  },  width: '90%',}}
         activeStep={activeStep} orientation={ 'horizontal'}>
         {steps.map((label) => (
           <Step key={label}>
@@ -568,24 +572,27 @@ function formatearFecha(fecha) {
           </Step>
         ))}
       </Stepper> 
-      <Grid 
+       <Grid 
+         xs={12} 
         sx={{
           display:'flex',
           flexDirection:'column', 
-          justifyContent:'space-around', 
-          //border:4,
+          // justifyContent:'center', 
+          // border:4,
           height: '85%',
+          // mx:'auto',
       
         }}>
         {getStepContent(activeStep)}
         <Box 
           sx={{ 
             display: 'flex', 
-            justifyContent: 'space-between', 
+            justifyContent: 'space-between',          
             marginY: 2, 
-            marginX:{xs :2, xm:3, sm:8 },
+            marginX:{xs :2, xm:3, sm:4 },
             // marginRight:5, 
-            //border:4, 
+            // border:4, 
+            // width:'100%',
             //height:'12%',
           }}>
 
@@ -619,7 +626,7 @@ function formatearFecha(fecha) {
         )}
         
         </Box>
-      </Grid> 
+      </Grid>  
     </Grid> 
   );
 };
