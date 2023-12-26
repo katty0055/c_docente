@@ -19,7 +19,14 @@ const Login = () => {
   useEffect(() => {
     const token = window.localStorage.getItem('accessToken');
     if (token) {
-      setUserId(jwtDecode(JSON.parse(token)).user_id);
+      try {
+        const decodedToken = jwtDecode(JSON.parse(token)).user_id;
+        setUserId(decodedToken);
+      } catch (error) {
+        console.error('Error al decodificar el token:', error);
+        // Manejar el error, por ejemplo, limpiando el token del localStorage
+        window.localStorage.removeItem('accessToken');
+      }
     }
   }, [setUserId]);
   

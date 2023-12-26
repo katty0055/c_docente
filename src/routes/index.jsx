@@ -19,14 +19,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Login />
     },
-    // {
-    //     path: 'concurso_docente/',
-    //     element: <Pagina/>,
-    //     children: [
-    //         {
-    //             path: 'postulacion/',
-    //             element: <Postulacion/>
-    //         },
+    {
+        path: 'concurso_docente/',
+        element: <Pagina/>,
+        children: [
+            {
+                path: 'postulacion/',
+                element: <Postulacion/>
+            },
     //         {
     //             path: 'editar/',
     //             element: <Editar/>,
@@ -44,8 +44,8 @@ const router = createBrowserRouter([
     //             element: <CrearConcurso/>
     //         },
            
-    //     ],
-    // },
+        ],
+    },
     // {
     //     path: 'cargar_documentos',
     //     element: <CargarDocumentos/>
