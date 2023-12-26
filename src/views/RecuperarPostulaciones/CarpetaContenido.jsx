@@ -25,7 +25,7 @@ const ModalArchivo = ({ archivoNombre, direccionUrl, onClose, contenidoArchivo }
 
 const CarpetaContenido = () => {
   const location = useLocation();
-  const nombreArchivo = location.state.nombreArchivo;
+const nombreArchivo = location.state ? location.state.nombreArchivo : 'Nombre de archivo predeterminado';
   const [archivos, setArchivos] = useState([]);
   const [nombreArchivoSeleccionado, setNombreArchivoSeleccionado] = useState(null);
   const [contenidoArchivo, setContenidoArchivo] = useState(null);
@@ -52,7 +52,9 @@ const CarpetaContenido = () => {
   }, [nombreArchivo]);
 
   const mostrarModal = async (archivo) => {
-    setNombreArchivoSeleccionado(archivo);
+    if (nombreArchivo) {
+      setNombreArchivoSeleccionado(archivo);
+    }
 
     try {
       const response = await fetch(`http://localhost:3000/postulaciones/${nombreArchivo}/${nombreArchivoSeleccionado}`);
