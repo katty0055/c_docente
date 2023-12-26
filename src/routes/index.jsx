@@ -19,67 +19,46 @@ const router = createBrowserRouter([
         path: '/',
         element: <Login />
     },
-    {
-        path: 'concurso_docente/',
-        element: <Pagina/>,
-        children: [
-            {
-                path: 'postulacion/',
-                element: <Postulacion/>
-            },
-            {
-                path: 'editar/',
-                element: <Editar/>,
-            },
-            {
-                path: 'recuperar_postulaciones/',
-                element: <Postulaciones/>,
-                //children: [
-                   
-                //]
-                
-            },
-            {
-                path: 'contenido',
-                element: <CarpetaContenido/>
-            },
-            {
-                path: 'crear_concurso/',
-                element: <CrearConcurso/>
-            },
+    // {
+    //     path: 'concurso_docente/',
+    //     element: <Pagina/>,
+    //     children: [
+    //         {
+    //             path: 'postulacion/',
+    //             element: <Postulacion/>
+    //         },
+    //         {
+    //             path: 'editar/',
+    //             element: <Editar/>,
+    //         },
+    //         {
+    //             path: 'recuperar_postulaciones/',
+    //             element: <Postulaciones/>,                
+    //         },
+    //         {
+    //             path: 'contenido',
+    //             element: <CarpetaContenido/>
+    //         },
+    //         {
+    //             path: 'crear_concurso/',
+    //             element: <CrearConcurso/>
+    //         },
            
-        ],
-    },
-    {
-        path: 'cargar_documentos',
-        element: <CargarDocumentos/>
-    },
-
-   
-    
-
-    // {
-    //     path: 'postulacion/', // Agrega el parámetro dinámico
-    //     element: <PostulacionForm/>
+    //     ],
     // },
-
     // {
-    //     path: 'postulacion2/',
-    //     element: <Postulacion/>
+    //     path: 'cargar_documentos',
+    //     element: <CargarDocumentos/>
     // },
-   
-     {
-         path: 'concurso_creado/',
-         element: <ConcursoCreado/>,
+    // {
+    //     path: 'concurso_creado/',
+    //     element: <ConcursoCreado/>,
 
-     }
-     ,
-     {
-        //  path: 'editar_concurso/:concurso_id',
-        //  element: <EditarConcurso/>,
-        path: 'editar_concurso/',
-        element: <Editar/>,
-        },
+    // },
+    // {
+    //     path: 'editar_concurso/',
+    //     element: <Editar/>,
+    // },
     
         
     
