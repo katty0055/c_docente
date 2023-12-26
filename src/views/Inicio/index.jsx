@@ -20,7 +20,8 @@ const Login = () => {
     const token = window.localStorage.getItem('accessToken');
     if (token) {
       try {
-        const decodedToken = jwtDecode(JSON.parse(token)).user_id;
+        const parsedToken = JSON.parse(token);
+        const decodedToken = jwtDecode(parsedToken).user_id;
         setUserId(decodedToken);
       } catch (error) {
         console.error('Error al decodificar el token:', error);
