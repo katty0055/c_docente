@@ -27,38 +27,38 @@ const router = createBrowserRouter([
                 path: 'postulacion/',
                 element: <Postulacion/>
             },
-    //         {
-    //             path: 'editar/',
-    //             element: <Editar/>,
-    //         },
-    //         {
-    //             path: 'recuperar_postulaciones/',
-    //             element: <Postulaciones/>,                
-    //         },
-    //         {
-    //             path: 'contenido',
-    //             element: <CarpetaContenido/>
-    //         },
-    //         {
-    //             path: 'crear_concurso/',
-    //             element: <CrearConcurso/>
-    //         },
+            {
+                path: 'editar/',
+                element: <Editar/>,
+            },
+            {
+                path: 'recuperar_postulaciones/',
+                element: <Postulaciones/>,                
+            },
+            {
+                path: 'contenido',
+                element: <CarpetaContenido/>
+            },
+            {
+                path: 'crear_concurso/',
+                element: <CrearConcurso/>
+            },
            
         ],
     },
-    // {
-    //     path: 'cargar_documentos',
-    //     element: <CargarDocumentos/>
-    // },
-    // {
-    //     path: 'concurso_creado/',
-    //     element: <ConcursoCreado/>,
+    {
+        path: 'cargar_documentos',
+        element: <CargarDocumentos/>
+    },
+    {
+        path: 'concurso_creado/',
+        element: <ConcursoCreado/>,
 
-    // },
-    // {
-    //     path: 'editar_concurso/',
-    //     element: <Editar/>,
-    // },
+    },
+    {
+        path: 'editar_concurso/',
+        element: <Editar/>,
+    },
     
         
     
