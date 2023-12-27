@@ -363,7 +363,7 @@ function formatearFecha(fecha) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const navigate = useNavigate();
-  const localhost = '0.0.0.0'
+  const localhost = 'desarrollodtic.pol.una.py'
 
   const handleNext = () => {  
     getFormData()  
