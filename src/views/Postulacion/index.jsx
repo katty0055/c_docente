@@ -363,6 +363,7 @@ function formatearFecha(fecha) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const navigate = useNavigate();
+  const localhost = '0.0.0.0'
 
   const handleNext = () => {  
     getFormData()  
@@ -415,7 +416,7 @@ function formatearFecha(fecha) {
           formData.append('archivos', file);
         }
   
-        const archivosResponse = await fetch('http://localhost:3000/crearcarpeta', {
+        const archivosResponse = await fetch(`http://${localhost}:3000/crearcarpeta`, {
           method: 'POST',
           body: formData,
         });
