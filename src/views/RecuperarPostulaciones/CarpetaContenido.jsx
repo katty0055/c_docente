@@ -25,16 +25,17 @@ const ModalArchivo = ({ archivoNombre, direccionUrl, onClose, contenidoArchivo }
 
 const CarpetaContenido = () => {
   const location = useLocation();
-  const nombreArchivo = location.state.nombreArchivo;
+  const nombreArchivo = location.state?.nombreArchivo; // Usar optional chaining
   const [archivos, setArchivos] = useState([]);
   const [nombreArchivoSeleccionado, setNombreArchivoSeleccionado] = useState(null);
   const [contenidoArchivo, setContenidoArchivo] = useState(null);
+  const localhost = 'desarrollodtic.pol.una.py'
 
   useEffect(() => {
     // Hacer la solicitud al servidor para obtener la lista de archivos
     const obtenerArchivos = async () => {
       try {
-        const direccionUrl = `http://localhost:3000/postulaciones/${nombreArchivo}`;
+        const direccionUrl = `http://${localhost}:3000/postulaciones/${nombreArchivo}`;
         const response = await fetch(direccionUrl);
         const data = await response.json();
 
@@ -55,7 +56,7 @@ const CarpetaContenido = () => {
     setNombreArchivoSeleccionado(archivo);
 
     try {
-      const response = await fetch(`http://localhost:3000/postulaciones/${nombreArchivo}/${nombreArchivoSeleccionado}`);
+      const response = await fetch(`http://${localhost}:3000/postulaciones/${nombreArchivo}/${nombreArchivoSeleccionado}`);
       const contenido = await response.text();
 
       if (response.ok) {
@@ -86,7 +87,7 @@ const CarpetaContenido = () => {
 
       <ModalArchivo
         archivoNombre={nombreArchivoSeleccionado}
-        direccionUrl={`http://localhost:3000/postulaciones/${nombreArchivo}/${nombreArchivoSeleccionado}`}
+        direccionUrl={`http://${localhost}:3000/postulaciones/${nombreArchivo}/${nombreArchivoSeleccionado}`}
         contenidoArchivo={contenidoArchivo}
         onClose={cerrarModal}
       />

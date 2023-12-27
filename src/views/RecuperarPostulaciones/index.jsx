@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 const Postulaciones = () => {
   const [archivos, setArchivos] = useState([]);
   const navigate = useNavigate();
+  const localhost = 'desarrollodtic.pol.una.py'
 
   useEffect(() => {
     // Realizar la solicitud GET para obtener la lista de archivos
-    axios.get('http://localhost:3000/postulaciones')
+    axios.get(`http://${localhost}:3000/postulaciones`)
       .then(response => {
         setArchivos(response.data.archivos);
       })
