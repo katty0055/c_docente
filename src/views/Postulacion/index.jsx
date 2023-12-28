@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 const getSteps = () => ['Datos del Puesto', 'Datos Personales', 'Documentos'];
 
 const Postulacion = () => {
+  const localhost = 'desarrollodtic.pol.una.py'
+ 
+
 
   //Formulario Interno
   const { concursoData } = useConcursoData();
@@ -42,7 +45,7 @@ const Postulacion = () => {
 
   useEffect(() => {
     const prevConcursoId = concursoId;
-    fetch(`http://127.0.0.1:8000/concurso/puesto/?concurso_id=${concursoId}`)
+    fetch(`http://${localhost}:8000/concurso/puesto/?concurso_id=${concursoId}`)
       .then(response => response.json())
       .then(data => {
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
@@ -249,7 +252,7 @@ const Postulacion = () => {
   const [datosPersona, setDatosPersona] = useState('');
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/concurso/usuarioFp/${userId}`)
+    fetch(`http://${localhost}:8000/concurso/usuarioFp/${userId}`)
       .then(response => response.json())
       .then(data => {
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
@@ -363,7 +366,7 @@ function formatearFecha(fecha) {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   const navigate = useNavigate();
-  const localhost = 'desarrollodtic.pol.una.py'
+  //const localhost = 'desarrollodtic.pol.una.py'
 
   const handleNext = () => {  
     getFormData()  
@@ -389,7 +392,7 @@ function formatearFecha(fecha) {
   
     try {
       // Parte 1: Realizar la postulación
-      const postulacionResponse = await fetch('http://127.0.0.1:8000/concurso/postulacion/', {
+      const postulacionResponse = await fetch(`http://${localhost}:8000/concurso/postulacion/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -442,7 +445,7 @@ function formatearFecha(fecha) {
 
        
         
-        const guardarDocumentoResponse = await fetch('http://127.0.0.1:8000/concurso/documento/', {
+        const guardarDocumentoResponse = await fetch(`http://${localhost}:8000/concurso/documento/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -470,7 +473,7 @@ function formatearFecha(fecha) {
 
           console.log(documentoPostulacionData)
 
-          const guardarRelacionResponse = await fetch('http://127.0.0.1:8000/concurso/documentopostulacion/', {
+          const guardarRelacionResponse = await fetch(`http://${localhost}:8000/concurso/documentopostulacion/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
