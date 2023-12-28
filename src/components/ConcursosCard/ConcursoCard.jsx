@@ -14,7 +14,9 @@ import {useConcursoData} from "../../state/useState";
 
 
 const ConcursoCard = () =>{
-    const apiUrl = 'http://127.0.0.1:8000/concurso/concurso/';
+  const localhost = 'desarrollodtic.pol.una.py'
+
+    const apiUrl = `http://${localhost}:8000/concurso/concurso/`;
     const [data, setData] = useState(null);
     const navigate = useNavigate();
     const concursoDataStore = useConcursoData();

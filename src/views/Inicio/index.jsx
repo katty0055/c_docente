@@ -15,6 +15,7 @@ const Login = () => {
   const navigate= useNavigate();
   const [documento, setDocumento] = useState('')
   const [password, setPassword] = useState('')
+  const localhost = 'desarrollodtic.pol.una.py'
  
   useEffect(() => {
     const token = window.localStorage.getItem('accessToken');
@@ -44,7 +45,7 @@ const Login = () => {
   const loginHandle = (e) => {
     e.preventDefault()
     try {
-      fetch('http://127.0.0.1:8000/concurso/auth/jwt/create/', {
+      fetch(`http://${localhost}:8000/concurso/auth/jwt/create/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
