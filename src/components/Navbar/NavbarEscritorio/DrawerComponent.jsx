@@ -1,17 +1,12 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 const drawerWidth = 200;
 // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -24,7 +19,7 @@ const drawerWidth = 200;
 //   justifyContent: 'flex-start',
 
 // }));
-const DrawerComponent = ({ open, handleDrawerClose, menuLinks }) => {
+const DrawerComponent = ({ open, menuLinks }) => {
   const theme = useTheme();
   return (
     <Drawer  
@@ -66,7 +61,7 @@ const DrawerComponent = ({ open, handleDrawerClose, menuLinks }) => {
         <ListItem key={item.title} disablePadding>
             <ListItemButton component={Link} to={item.path}>
               <ListItemIcon sx={{ color: 'white' }}>
-                {item.icon % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
             <ListItemText sx={{ color: 'white' }} primary={item.title} />
           </ListItemButton>
@@ -80,7 +75,7 @@ const DrawerComponent = ({ open, handleDrawerClose, menuLinks }) => {
 
 DrawerComponent.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleDrawerClose: PropTypes.func.isRequired,
+ // handleDrawerClose: PropTypes.func.isRequired,
   menuLinks: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,

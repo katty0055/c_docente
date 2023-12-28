@@ -15,6 +15,7 @@ import { useUserData } from '../../state/useState';
 import { Outlet } from 'react-router-dom';
 import ConcursoCard from '../../components/ConcursosCard/ConcursoCard';
 import { useLocation } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 const drawerWidth = 200;
@@ -83,22 +84,34 @@ export default function Pagina() {
 
   const menuLinks = [
     {
+      title: "Inicio",
+      path: "/concurso_docente/",
+      icon: <HomeIcon/>,
+ 
+    },
+    {
       title: "Menu1",
       path: "menu1",
       icon: <MenuIcon/>,
-      onClick: onLogout
+    
     },
     {
       title: "Menu2",
       path: "cargar_documentos",
-      icon: <MenuIcon/>,
-      onClick: onLogout
+      icon: <HomeIcon/>,
+
     },
     {
       title: "Crear Concurso",
       path: "crear_concurso/",
       icon: <MenuIcon/>,
-      onClick: onLogout
+
+    },
+    {
+      title: "Recuperar Postulaciones",
+      path: "recuperar_postulaciones/",
+      icon: <MenuIcon/>,
+
     }
   ];
 

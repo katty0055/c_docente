@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Stepper, Step, StepLabel, Button, Typography, Box, useMediaQuery, Grid } from '@mui/material';
+import { Stepper, Step, StepLabel, Button, Typography, Box, Grid, useMediaQuery } from '@mui/material';
 import FormularioInternoDocumento from './FormularioInternoDocumentos';
 import FormularioInternoPersona from './FormularioInternoPersona';
 import FormularioInternoPuesto from './FormularioInternoPuesto';
 import { useConcursoData, useUserData} from '../../state/useState';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 
 const getSteps = () => ['Datos del Puesto', 'Datos Personales', 'Documentos'];
 
-const StepperComponent = () => {
+const Postulacion = () => {
+  const localhost = 'desarrollodtic.pol.una.py'
+ 
+
 
   //Formulario Interno
   const { concursoData } = useConcursoData();
@@ -28,6 +32,7 @@ const StepperComponent = () => {
   const [direcciones, setDirecciones] = useState(['---']);
   const [areas, setAreas] = useState(['---']);  
   const [turnos, setTurnos] = useState(['---']); 
+  const [sedes, setSedes] = useState(['No tiene puestos asociados']); 
   
   const { userId } = useUserData();
   const [datosPostulacion,setDatosPostulacion] = useState({
@@ -39,20 +44,40 @@ const StepperComponent = () => {
     "puesto": null,  
   });
 
+
+  console.log('concurso numero', concursoId)
+
+
+
+
   useEffect(() => {
     const prevConcursoId = concursoId;
-    fetch(`http://127.0.0.1:8000/concurso/puesto/?concurso_id=${concursoId}`)
+    fetch(`http://${localhost}:8000/concurso/puesto/`)
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
       if (prevConcursoId === concursoId) {
-        setPuestos(data);  // Almacena los puestos en el estado
+        console.log('concursoId:', concursoId);
+        const filteredPuestos = data.filter(item => item.concurso.concurso_id == concursoId);
+         // Almacena los puestos en el estado
+        console.log('filteredPuestos:', filteredPuestos);
+        setPuestos(filteredPuestos);   
+          
       }
       })
       .catch(error => {
         console.error('Error al obtener los puestos:', error);
       });
   }, [concursoId]);
+
+  useEffect(() => {
+    if (puestos.length > 0) {
+      setSedes([...new Set(puestos.map(puesto => puesto.sede.descripcion_sede))]); // También puedes llamar a la función aquí si es necesario en otros casos
+      console.log('hola')
+    }
+   
+  }, [puestos]);
 
   const handleSedeChange = (event) => {
     const selectedSede = event.target.value;
@@ -119,6 +144,7 @@ const StepperComponent = () => {
 
   };
 
+
   
 
   const getFormData= () => {
@@ -146,7 +172,7 @@ const StepperComponent = () => {
    }
    };
 
-  const sedesUnicas = [...new Set(puestos.map(puesto => puesto.sede.descripcion_sede))];
+ 
 
 
   const inputTextPuesto = [
@@ -173,7 +199,7 @@ const StepperComponent = () => {
       label:"Sede",
       valor: selectedSede, 
       type: 'select',
-      options: sedesUnicas,    
+      options: sedes,    
       handleChange: (event) => {
         setSelectedSede(event.target.value);  
         handleSedeChange(event);   
@@ -248,7 +274,7 @@ const StepperComponent = () => {
   const [datosPersona, setDatosPersona] = useState('');
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/concurso/usuarioFp/${userId}`)
+    fetch(`http://${localhost}:8000/concurso/usuarioFp/${userId}`)
       .then(response => response.json())
       .then(data => {
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
@@ -347,12 +373,12 @@ function formatearFecha(fecha) {
     {
       id:'Auxiliar de Enseñanza',
       documentos: [
-        'Cedula de Identidad',
-        'Curriculum Vitae',
-        'Titulo_de Grado',
-        'Antecedentes Disciplinarios',
-        'Foto Carnet',
-        'Otro/s',
+        'CEDULA DE IDENTIDAD',
+        'CURRICULUM VITAE',
+        'TITULO DE GRADO',
+        'ANTECEDENTES DISCIPLINARIOS',
+        'FOTO CARNET',
+        'OTRO',
       ],
     },   
   ];
@@ -361,7 +387,8 @@ function formatearFecha(fecha) {
   //Caja Externa
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
-  const isScreenSmall = useMediaQuery('(max-width:600px)');
+  const navigate = useNavigate();
+  //const localhost = 'desarrollodtic.pol.una.py'
 
   const handleNext = () => {  
     getFormData()  
@@ -370,25 +397,24 @@ function formatearFecha(fecha) {
   };
 
   const handleBack = () => {
-    
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
+    if (activeStep === 0) {
+      // Aquí debes realizar la redirección a la página anterior, por ejemplo, usando React Router
+      // Reemplaza '/pagina-anterior' con la ruta correcta de tu página anterior
+      navigate('/concurso_docente/');
+    } else {    
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
   };
 
   const [selectedFiles, setSelectedFiles] = useState(new Array(inputTextDocumento[0].documentos.length).fill(null));
-  const [documento, setDocumento] = useState({
-    "path_documento": "",
-    "es_privado": false,
-    "estado_documento": "",
-    "vigente": false,
-    "tipo_documento": "",
-  })
 
   const handleFinish = async () => {
     //console.log(selectedFiles);
   
     try {
       // Parte 1: Realizar la postulación
-      const postulacionResponse = await fetch('http://127.0.0.1:8000/concurso/postulacion/', {
+      const postulacionResponse = await fetch(`http://${localhost}:8000/concurso/postulacion/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -415,14 +441,81 @@ function formatearFecha(fecha) {
           formData.append('archivos', file);
         }
   
-        const archivosResponse = await fetch('http://localhost:3000/crearcarpeta', {
+        const archivosResponse = await fetch(`http://${localhost}:3000/crearcarpeta`, {
           method: 'POST',
           body: formData,
         });
   
         if (archivosResponse.ok) {
-          const archivosData = await archivosResponse.json();
+          const archivosData = await archivosResponse.json();      
           console.log('Respuesta de carga de archivos:', archivosData);
+          console.log('Respuesta de carga de archivos2:', archivosData.urlCarpeta);
+
+
+       
+      // Parte 3: Guardar datos del documento en la base de datos para cada archivo
+      for (const archivo of archivosData.archivos) {
+        const documentoData = {
+          path_documento: `${archivosData.urlCarpeta}/${archivo}`,
+          //path_documento: 'hola/hola',
+          es_privado: false,
+          estado_documento: 'activo', // Ajusta según tus necesidades
+          vigente: false,
+          tipo_documento: null,
+        };
+
+
+       
+        
+        const guardarDocumentoResponse = await fetch(`http://${localhost}:8000/concurso/documento/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(documentoData),
+        });
+
+        if (guardarDocumentoResponse.ok) {
+         const documentoGuardadoData = await guardarDocumentoResponse.json();
+
+    // Imprimir la respuesta completa para depurar
+    console.log('Respuesta completa al guardar documento:', documentoGuardadoData);
+
+    // Asegurarse de ajustar según la estructura real de la respuesta
+    const documentoId = documentoGuardadoData.documento_id ;
+
+    if (documentoId != undefined) {
+      console.log(`Documento "${archivo}" guardado exitosamente en la base de datos. ID: ${documentoId}`);
+      
+      const documentoPostulacionData = {
+        "aprobado": false,
+        "postulacion": postId,
+        "documento": documentoId // Aquí asignas el ID del documento a la propiedad "documento" en documentoPostulacionData
+      };
+
+          console.log(documentoPostulacionData)
+
+          const guardarRelacionResponse = await fetch(`http://${localhost}:8000/concurso/documentopostulacion/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(documentoPostulacionData),
+          });
+          if (guardarRelacionResponse.ok) {
+            console.log('Relacion guardada')
+          }else{
+            console.log('Error al guardar la relacion')
+          }
+
+    }
+        } else {
+          const guardarDocumentoErrorData = await guardarDocumentoResponse.json();
+          console.error(`Error al guardar documento "${archivo}" en la base de datos:`, guardarDocumentoErrorData.error);
+          // Manejar el error si es necesario
+        }
+      }
+
         } else {
           const archivosErrorData = await archivosResponse.json();
           console.error('Error en la carga de archivos:', archivosErrorData.error);
@@ -433,12 +526,15 @@ function formatearFecha(fecha) {
         console.error('Error en la postulación:', postulacionErrorData.error);
         // Manejar el error de postulación si es necesario
       }
+      navigate(`/concurso_docente/`);
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);
     }
   };
   
   
+  const isScreenSmall = useMediaQuery('(max-width:600px)');
+
 
   const getStepContent = (step) => {
     switch (step) {
@@ -461,8 +557,9 @@ function formatearFecha(fecha) {
 
   return (
     <Grid item container 
-      xs={11} 
+      xs={12} xm={12} sm ={11}
       justifyContent={'space-between'}
+      alignItems={'center'}
       sx={{         
         borderRadius: 2,
         borderStyle: "double",
@@ -471,8 +568,10 @@ function formatearFecha(fecha) {
         m: 'auto', 
         backgroundColor: 'primary.contrastText',
         display:'flex',
-        flexDirection:'column',
+        flexDirection: {xs :'row', xm:'row', sm:'row' } , 
         position:'relative',
+        boxSizing:'border-box',
+        
       }}>
         <Typography
           variant="h2"
@@ -480,36 +579,46 @@ function formatearFecha(fecha) {
           color="primary.main"
           fontWeight= "bold"
           marginTop={2}
+          mx={'auto'}
+          // border={4}
         > 
           Formulario de postulacion
         </Typography> 
         
        <Stepper 
-        sx={{ margin: 1,}}
-        activeStep={activeStep} orientation={isScreenSmall ? 'vertical' : 'horizontal'}>
+        sx={{ margin: {xs :'auto', xm:'auto', sm:2,  },  width: '90%',}}
+        activeStep={activeStep} orientation={ 'horizontal'}>
         {steps.map((label) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel>
+            <Typography variant={isScreenSmall ? 'subtitle1' : 'subtitle1'}>
+              {label}
+            </Typography>
+            </StepLabel>
           </Step>
         ))}
       </Stepper> 
-      <Grid 
+       <Grid 
+         xs={12} 
         sx={{
           display:'flex',
           flexDirection:'column', 
-          justifyContent:'space-around', 
-          //border:4,
-          height: '85%'
+          // justifyContent:'center', 
+          // border:4,
+          height: '85%',
+          // mx:'auto',
+      
         }}>
         {getStepContent(activeStep)}
         <Box 
           sx={{ 
             display: 'flex', 
-            justifyContent: 'flex-end', 
+            justifyContent: 'space-between',          
             marginY: 2, 
-            marginX:4,
+            marginX:{xs :2, xm:3, sm:4 },
             // marginRight:5, 
-            //border:4, 
+            // border:4, 
+            // width:'100%',
             //height:'12%',
           }}>
 
@@ -517,8 +626,7 @@ function formatearFecha(fecha) {
             variant="outlined"
             color="primary"
             onClick={handleBack}
-            disabled={activeStep === 0}
-            sx={{ marginRight: 2 }}
+            // sx={{ marginRight: 2 }}
           >
             Atrás
           </Button>
@@ -528,7 +636,7 @@ function formatearFecha(fecha) {
             variant="contained"
             color="primary"
             onClick={handleNext}
-            sx={{ marginRight: 2 }}
+            // sx={{ marginRight: 2 }}
           >
             Siguiente
           </Button>
@@ -537,16 +645,16 @@ function formatearFecha(fecha) {
             variant="contained"
             color="primary"
             onClick={handleFinish}  // Agrega una nueva función para manejar la finalización
-            sx={{ marginRight: 2 }}
+            //sx={{ marginRight: 2 }}
           >
             Terminar
           </Button>
         )}
         
         </Box>
-      </Grid> 
+      </Grid>  
     </Grid> 
   );
 };
 
-export default StepperComponent;
+export default Postulacion;

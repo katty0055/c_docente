@@ -15,6 +15,7 @@ const Login = () => {
   const navigate= useNavigate();
   const [documento, setDocumento] = useState('')
   const [password, setPassword] = useState('')
+  const localhost = 'desarrollodtic.pol.una.py'
  
   useEffect(() => {
     const token = window.localStorage.getItem('accessToken');
@@ -36,7 +37,7 @@ const Login = () => {
   const loginHandle = (e) => {
     e.preventDefault()
     try {
-      fetch('http://127.0.0.1:8000/concurso/auth/jwt/create/', {
+      fetch(`http://${localhost}:8000/concurso/auth/jwt/create/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -82,14 +83,15 @@ const Login = () => {
     <>
      <Grid item container fixed="true"
      xs={10} sm={9} md={8} lg={7}
-     justifyContent="center"
+     justifyContent='center'
      alignItems="center"
      height="100vh"
      sx={{
         mx: "auto",
         position: "relative",
-        minWidth: 220,
-        minHeight: 290,
+        // minWidth: 220,
+        // minHeight: 290,
+        //border:4,
      }}
      >
        <Grid item 

@@ -5,8 +5,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +17,7 @@ const DrawerContentMovil = ({ mobileOpen, handleDrawerToggle, navLinks, menuLink
           <ListItem key={item.title} disablePadding>
             <ListItemButton component={Link} to={item.path}>
               <ListItemIcon sx={{ color: 'white' }}>
-                {item.icon % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {item.icon}
               </ListItemIcon>
               <ListItemText sx={{ color: 'white' }} primary={item.title} />
             </ListItemButton>
