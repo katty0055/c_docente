@@ -15,6 +15,7 @@ import { Global } from '@emotion/react';
 import FormularioConcurso from './FormularioConcurso';
 
 const CrearConcurso = () => {
+	const localhost = 'desarrollodtic.pol.una.py';
 
 	const navigate = useNavigate();
 	const [errorMessages, setErrorMessages] = useState([]);
@@ -78,7 +79,7 @@ const CrearConcurso = () => {
 	useEffect(() => {
 		const obtenerTiposConcursos = async () => {
 			try {
-				const data = await apiService.get('http://127.0.0.1:8000/concurso/tipoconcurso/');
+				const data = await apiService.get(`http://${localhost}:8000/concurso/tipoconcurso/`);
 				setTipoConcurso(data);	
 			} catch (error) {
 				console.error('Error al obtener los tipos de concurso:', error);
@@ -102,7 +103,7 @@ const CrearConcurso = () => {
 	useEffect(() => {
 		const obtenerModalidadesConcursos = async () => {
 			try {
-				const data = await apiService.get('http://127.0.0.1:8000/concurso/modalidadconcurso/');
+				const data = await apiService.get(`http://${localhost}:8000/concurso/modalidadconcurso/`);
 				setModalidadConcurso(data);
 			} catch (error) {
 				console.error('Error al obtener las modalidades de concurso:', error);
@@ -137,7 +138,7 @@ const CrearConcurso = () => {
 		setDatoConcurso(concurso);
 		console.log(datoConcurso);
 		console.log(selectedConcurso.tipo_concurso_id);
-		fetch('http://127.0.0.1:8000/concurso/concurso/', {
+		fetch(`http://${localhost}:8000/concurso/concurso/`, {
 			method: 'POST',
 		 	headers: {
 		 		'Content-Type': 'application/json',
