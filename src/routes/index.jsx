@@ -7,8 +7,8 @@ import CargarDocumentos from "../views/CargarDocumentos";
 //import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
 import CrearConcurso from "../views/Concurso/CrearConcurso";
-import ConcursoCreado from "../views/Concurso/ConcursoCreado";
-import EditarConcurso from "../views/Concurso/EditarConcurso";
+import AgregarRequisitos from "../views/Concurso/AgregarRequisitos";
+
 import Editar from "../views/Concurso/editar";
 
 //import StepperComponent from "../views/Postulacion/StepperComponentEscritorio";
@@ -30,8 +30,12 @@ const router = createBrowserRouter([
             },
             {
                 path: 'crear_concurso/',
-                element: <CrearConcurso/>
+                element: <CrearConcurso/>,
             },
+             {
+                path: 'agregar_requisitos_concurso/',
+                element: <AgregarRequisitos/>
+             },
             // {
             //     path: 'postulacion/',
             //     element: <Postulacion/>
@@ -42,6 +46,7 @@ const router = createBrowserRouter([
         path: 'cargar_documentos',
         element: <CargarDocumentos/>
     },
+   
     
 
     // {
@@ -54,11 +59,6 @@ const router = createBrowserRouter([
     //     element: <Postulacion/>
     // },
    
-     {
-         path: 'concurso_creado/',
-         element: <ConcursoCreado/>,
-
-     }
      ,
      {
         //  path: 'editar_concurso/:concurso_id',

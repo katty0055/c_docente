@@ -1,49 +1,8 @@
-// useEffect(() => { 
-// 	fetch('http://127.0.0.1:8000/concurso/tipoconcurso/')
-// 	.then(response => response.json())
-// 	.then(data	=> {
-// 		setTipoConcurso(data);
-// 		console.log(tipoConcurso);
-// 	})
-// 	.catch(error => {
-// 		console.error('Error al obtener los tipos de concurso:', error);
-// 	});
-// }, []);
-
-// useEffect(() => {
-// 	fetch('http://127.0.0.1:8000/concurso/modalidadconcurso/')
-// 	.then(response => response.json())
-// 	.then(data	=> {
-// 		setModalidadConcurso(data);
-// 	})
-// 	.catch(error => {
-// 		console.error('Error al obtener las modalidades de concurso:', error);
-// 	});
-	
-// }, []);
-
-// useEffect(() => {
-// 	const prevConcursoId = concursoId;
-// 	fetch(`http://127.0.0.1:8000/concurso/concurso/${concursoId}`)
-// 	  .then(response => response.json())
-// 	  .then(data => {
-// 		// Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
-// 	  if (prevConcursoId === concursoId) {
-// 		setDatoConcurso(data);  // Almacena los puestos en el estado
-// 		console.log(data);
-		
-// 	  }
-// 	  })
-// 	  .catch(error => {
-// 		console.error('Error al obtener el concurso', error);
-// 	  });
-//   }, [concursoId]);
-
-
 import { useEffect, useState } from 'react';
 import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import theme from "../../components/Temas/theme";
 import { apiService } from '../../api/apiService';
+import FormularioConcurso from './FormularioConcurso';
 
 
 const editar = () => {
@@ -99,25 +58,7 @@ const editar = () => {
             "modalidad_concurso": "",
         }
     );
-    
-	// useEffect(() => {
-	// 	const prevConcursoId = concursoId;
-	// 	fetch(`http://127.0.0.1:8000/concurso/concurso/${concursoId}`)
-	// 	  .then(response => response.json())
-	// 	  .then(data => {
-	// 		// Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
-	// 	  if (prevConcursoId === concursoId) {
-	// 		setDatoConcurso(data);  // Almacena los puestos en el estado
-	// 		console.log(data);
-			
-	// 	  }
-	// 	  })
-	// 	  .catch(error => {
-	// 		console.error('Error al obtener el concurso', error);
-	// 	  });
-	//   }, [concursoId]);
 
-	
 	useEffect(() => {
 		const obtenerConcurso = async () => {
 			try {
@@ -159,10 +100,53 @@ const editar = () => {
 		obtenerModalidadesConcursos();
 
 	}, []);
-  
-		
 
-    const inputText = [
+	const inputText = [
+		{
+            id: "Denominacion concurso",
+            label: "Denominacion concurso",
+			valor: estados.denominacion_conc,//datoConcurso.denominacion_conc,
+            type: 'text',
+			handleChange: (event) => {
+				const nuevaDenominConcurso = event.target.value;
+
+				setEstados(prevState => ({
+					...prevState,
+						denominacion_conc: nuevaDenominConcurso,
+				}));
+			},
+			
+			width: 5.5,
+        },
+		{
+			id: "Estado seguimiento concurso",
+		  label: "Estado seguimiento concurso",
+		  valor: estados.estado_seguimiento_concurso,//datoConcurso.estado_seguimiento_concurso,
+		  type: 'text',
+		  handleChange: (event) => {
+			  const nuevoEstadoSegConcurso = event.target.value;
+
+			  setEstados(prevState => ({
+				  ...prevState,
+					  estado_seguimiento_concurso: nuevoEstadoSegConcurso,
+			  }));
+		  },
+		  width: 5.5,
+	   },
+		{
+			id: "Codigo Concurso",
+		 	label: "Codigo Concurso",
+		    valor: estados.codigo_concurso,//datoConcurso.codigo_concurso,
+		    type: 'text',
+			handleChange: (event) => {
+				const nuevoCodigoConcurso = event.target.value;
+				setEstados(prevState => ({
+					...prevState,
+						codigo_concurso: nuevoCodigoConcurso,
+				}));
+			},
+			width: 5.5,
+	 	},
         {
             id:"Año",
             label:"Año Concurso",
@@ -198,100 +182,9 @@ const editar = () => {
                   
                 console.log(estados.anho_concurso);
             },
+			width: 5.5,
         },
 		{
-			id: "Codigo Concurso",
-		 	label: "Codigo Concurso",
-		    valor: estados.codigo_concurso,//datoConcurso.codigo_concurso,
-		    type: 'text',
-			handleChange: (event) => {
-				const nuevoCodigoConcurso = event.target.value;
-				setEstados(prevState => ({
-					...prevState,
-						codigo_concurso: nuevoCodigoConcurso,
-				}));
-			},
-	 	},
-	 	{
-	      	id: "Estado seguimiento concurso",
-			label: "Estado seguimiento concurso",
-			valor: estados.estado_seguimiento_concurso,//datoConcurso.estado_seguimiento_concurso,
-			type: 'text',
-			handleChange: (event) => {
-				const nuevoEstadoSegConcurso = event.target.value;
-
-				setEstados(prevState => ({
-					...prevState,
-						estado_seguimiento_concurso: nuevoEstadoSegConcurso,
-				}));
-			},
-	 	},
-	 
-	 	{
-			id: "Vigencia",
-			labelDesde: "Vigencia desde",
-			labelHasta: "Vigencia hasta",
-			valorDesde: estados.vigencia_desde,//datoConcurso.vigencia_desde,
-			valorHasta: estados.vigencia_hasta,//datoConcurso.vigencia_hasta,
-			type: 'date',
-			handleChangeDesde: (event) => {
-				const vigenciaDesde = event.target.value;
-				//const vigenciaHasta = document.getElementById("VigenciaHasta").value;
-				console.log(vigenciaDesde);
-				console.log(new Date(vigenciaDesde));
-				if (vigenciaDesde < estados.vigencia_desde) {
-					setErrorMessages({
-						...errorMessages,
-						"VigenciaDesde": "La fecha 'vigente desde' NO puede ser menor a la fecha actual"});
-				} else {
-					setErrorMessages({
-						...errorMessages,
-						"VigenciaDesde": ""
-					});
-				}
-				
-				setEstados(prevState => ({
-					...prevState,
-						vigencia_desde: vigenciaDesde,
-				}));
-			},
-			handleChangeHasta: (event) => {
-				const vigenciaHasta = event.target.value;
-				
-				if (vigenciaHasta < estados.vigencia_desde) {
-					setErrorMessages({
-					...errorMessages,
-					"VigenciaHasta": "La fecha 'vigente hasta' NO puede ser menor a la fecha 'vigente desde'"
-					});
-					} else {
-					setErrorMessages({
-					...errorMessages,
-					"VigenciaHasta": ""
-					});
-					
-				}
-				
-				setEstados(prevState => ({
-					...prevState,
-						vigencia_hasta: vigenciaHasta,
-				}));
-			},
-	 	},
-		{
-            id: "Denominacion concurso",
-            label: "Denominacion concurso",
-			valor: estados.denominacion_conc,//datoConcurso.denominacion_conc,
-            type: 'text',
-			handleChange: (event) => {
-				const nuevaDenominConcurso = event.target.value;
-
-				setEstados(prevState => ({
-					...prevState,
-						denominacion_conc: nuevaDenominConcurso,
-				}));
-			},
-        },
-        {
             id: "Tipo Concurso",
             label: "Tipo Concurso",
 			valor: tipoConcurso.length > 0 && estados.tipo_concurso 
@@ -311,6 +204,7 @@ const editar = () => {
 						tipo_concurso: nuevoTipoConcurso,
 				}));
             },
+			width: 5.5,
         },
         {
             id: "Modalidad Concurso",
@@ -328,176 +222,151 @@ const editar = () => {
 						modalidad_concurso: nuevaModalidadConcurso,
 				}));
             },
+			width: 5.5,
         },
-        
-		
-    ];
-        return (   
-            
-            <Container
+	 	
+
+		 {
+			id: "Vigencia desde",
+			label: "Vigencia desde",
+			valor: estados.vigencia_desde,
+			type: 'date',
+			handleChange: (event) => {
+				//setSelectedVigenciaDesde(event.target.value);
+				const vigenciaDesde = event.target.value;
+			  if (new Date(event.target.value) < new Date(today)) {
+				setErrorMessages({
+					...errorMessages,
+					"VigenciaDesde": "La fecha 'vigente desde' NO puede ser menor a la fecha actual"});
+			  	} else if (new Date(event.target.value) > new Date(selectedVigenciaHasta)) {
+					setErrorMessages({
+						...errorMessages,
+						"VigenciaDesde": "La fecha 'vigente desde' NO puede ser mayor a la fecha 'vigente hasta'"
+					});
+				} else {
+				setErrorMessages({
+					...errorMessages,
+					"VigenciaDesde": ""
+				});
+			   }
+
+			   	setEstados(prevState => ({
+					...prevState,
+					vigencia_desde: vigenciaDesde,
+				}));
+
+			},
+			width: 5.5,
+		},
+		{
+			id: "Vigencia hasta",
+			label: "Vigencia hasta",
+			valor: estados.vigencia_hasta,
+			type: 'date',
+			handleChange: (event) => {
+				//setSelectedVigenciaHasta(event.target.value);
+				const vigenciaHasta = event.target.value;
+
+				if (new Date(event.target.value) < new Date(selectedVigenciaDesde)) {
+					setErrorMessages({
+					 ...errorMessages,
+					 "VigenciaHasta": "La fecha 'vigente hasta' NO puede ser menor a la fecha 'vigente desde'"
+					});
+				} else {
+					setErrorMessages({
+					 ...errorMessages,
+					 "VigenciaHasta": ""
+					});
+					
+				}
+
+				setEstados(prevState => ({
+					...prevState,
+					vigencia_hasta: vigenciaHasta,
+				}));
+
+			},
+			width: 5.5,
+		},
+		{
+			id:"Es arancelado",
+			type: 'checkbox',
+			label: "Arancelado",
+			valor: estados.es_arancelado,//datoConcurso.es_arancelado
+			handleChange: (event) => {
+				setEsArancelado(event.target.checked);
+				console.log('hola');
+			},
+			width: 5.5,
+		},
+		{
+			id: "Es postulacion multiple",
+			type: 'checkbox',
+			label: "Postulacion multiple",
+			valor: estados.es_postulacion_multiple,//datoConcurso.es_postulacion_multiple,
+			handleChange: (event) => {
+				setEsPostulacionMultiple(event.target.checked);
+			},
+			width: 5.5,
+		},
+	];
+
+	const obtenerFormularioConcurso = () => {
+		return (
+			<FormularioConcurso inputText = {inputText} />	
+			);
+		};
+  
+    return (
+		<Grid item container 
+			justifyContent="space-between"
+			alignItems="center"
+			xs={11}
 			sx={{
 				display: 'flex',
-				height: '100%',
-				justifyContent: 'center',
-				alignItems: 'center',
+				//border: 4,
+				m: 'auto',
+				borderRadius: 2,
+				borderStyle: "double",
+				boxShadow: 4,
+				borderColor: "primary.dark",
+				backgroundColor: 'primary.contrastText',
+				position:'relative',
+				flexDirection: 'row',
+				//flexWrap: 'wrap',
+				//gap: 1.5,
+				
 			}}>  
-			<Box 
-				component="form"
-				autoComplete="off"
-				sx={{
-					border: 4,
-					width: '80%',
-					//height: '100%',
-					borderColor: "primary.dark",
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 2,
-					boxSizing: 'border-box',
-					overflow: 'auto',
-			}}>
-			<Typography
-				variant="h1"
-				textAlign="center"
-				color="primary.main"
-				fontWeight="bold"
-				style={{marginTop: 8, fontSize: '3vw'}}
-			>
-					Editar Concurso
-			</Typography>
 		
-		{inputText.map((item) => (
-			//<Grid item key={item.id}>
-			item.type === 'date' ? (
-				<Grid container justifyContent="space-between">
-				<Grid item xs={6}>
-					<TextField
+		<Typography
+          variant="h2"
+          textAlign= "center"
+          color="primary.main"
+          fontWeight= "bold"
+          marginTop={2}
+					marginBottom={2}
+		  		mx='auto'
+        > 
+          Editar Concurso
+        </Typography> 
 
-					id={`${item.id}Desde`}
-					label={item.labelDesde}
-					type={item.type}
-					variant="outlined"
-					value={item.valorDesde}
-					size={window.innerWidth >= 900 ? "medium" : "small"}
-					helperText={errorMessages["VigenciaDesde"]}
-					required
-					sx={{
-						background: theme.palette.primary.contrastText,
-						width: '98%',
-						marginLeft: 1,
-						marginRight: 1,
-						'& .MuiFormHelperText-root': {
-							color: 'red',
-						}
-					}}
-					onChange={item.handleChangeDesde}
-					/>
-				</Grid>
-				<Grid item xs={6}>
-					<TextField
-					id={`${item.id}Hasta`}
-					label={item.labelHasta}
-					type={item.type}
-					variant="outlined"
-					value={item.valorHasta}
-					size={window.innerWidth >= 900 ? "medium" : "small"}
-					helperText={errorMessages["VigenciaHasta"]}
-					required
-					sx={{
-						background: theme.palette.primary.contrastText,
-						width: '98%',
-						//marginLeft: 1,
-						marginRight: 1,
-						'& .MuiFormHelperText-root': {
-							color: 'red',
-						},
-						// '& .MuiOutlinedInput-root': {
-						// 	'& fieldset': {
-						// 	  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-						// 	},
-						// 	'&:hover fieldset': {
-						// 	  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-						// 	},
-						// 	'&.Mui-focused fieldset': {
-						// 	  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-						// 	},
-						// },
-					}}
-					onChange={item.handleChangeHasta}
-					/>
-				</Grid>
-				</Grid>
-			) : item.type === 'text' ? (
-										<TextField
-											id={item.id}
-											label={item.label}
-											type={item.type}
-											variant="outlined"
-											value={item.valor}
-											size={window.innerWidth >= 900 ? "medium" : "small"}
-											required
-											helperText={errorMessages[item.id=== "Año" ? "Anho": ""]}
-											sx={{
-												background: theme.palette.primary.contrastText,
-												width: item.id === "Año" ? "30%" : "98%",
-												marginLeft: 1,
-												marginRight: 1,
-											}}
-					
-											onChange={item.handleChange}
-										/>
-									
-			) : item.type === 'select' && (
-					<FormControl>
-						<InputLabel id={`${item.id}-label`}>{item.label}</InputLabel>
-						<Select
-							labelId={`${item.id}-label`}
-							id={item.id}
-							label={item.label}
-							value={item.valor}
-							variant="outlined"
-							size={window.innerWidth >= 900 ? 'medium' : 'small'}
-							required
-							sx={{
-								background: theme.palette.primary.contrastText,
-								width: '98%',
-								marginLeft: 1,
-								marginRight: 1,
-							}}
-							onChange={item.handleChange}
-							>
-							{item.options.map(option => (
-								<MenuItem key={option} value={option}>
-								{option}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-						
-			)
-			//</Grid>
-		))}
+		{obtenerFormularioConcurso()}
 
 			<Button size="small" variant="contained" color="primary" 
-				sx={{
-					fontSize: theme.typography.body1, // Ajusta el tamaño de la letra según tus necesidades
-					fontWeight: 'bold',
-					width: '30%',
-					alignSelf: 'center',
-					marginBottom: 2,
-					}}
-					//onClick={editarConcurso}
-					// onClick={() => handlePostularClick(concurso.concurso_id)}
-					>
-						Editar
-			</Button>
-  
-    	</Box>
-		</Container> 
-  
-
-			
-    	
-          );
+					sx={{
+						fontSize: theme.typography.body1, // Ajusta el tamaño de la letra según tus necesidades
+						fontWeight: 'bold',
+						width: '15%',
+						alignSelf: 'center',
+						marginBottom: 2,
+						mx:'auto'
+						}}
+						//onClick={editarConcurso}
+						>
+							Guadar cambios
+				</Button>
+		</Grid>
+	);
 };
 
 export default editar;
