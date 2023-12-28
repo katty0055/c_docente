@@ -8,25 +8,24 @@ import {useConcursoData} from '../../state/useState';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, FormControlLabel, Checkbox, FormGroup, Container } from '@mui/material';
 import theme from '../../components/Temas/theme';
 import { blue } from '@mui/material/colors';
-//import { useNeonCheckboxStyles } from '@mui-treasury/styles/checkbox/neon';
 import { useNavigate } from 'react-router-dom';
 import EditarConcurso from './EditarConcurso'
 import { apiService } from '../../api/apiService';
+import { Global } from '@emotion/react';
+import FormularioConcurso from './FormularioConcurso';
 
 const CrearConcurso = () => {
 
-    //const neonStyles = useNeonCheckboxStyles();
-	//const [errorMessage, setErrorMessage] = useState("");
-	//const history = useHistory();
 	const navigate = useNavigate();
 	const [errorMessages, setErrorMessages] = useState([]);
-  	const today = new Date().toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
 	//obtener el anho
 	const anhoActual = new Date().getFullYear();
 	const [selectedAnho, setSelectedAnho] = useState(anhoActual);
+	const [concursoId, setConcursoId] = useState(null);
 	const [selectedCodigoConcurso, setSelectedCodigoConcurso] = useState('');
 	const [selectedEstadoSeguimientoConcurso, setSelectedEstadoSeguimientoConcurso] = useState('');
-	const [selectedInformacion, setSelectedInformacion] = useState('');
+	// const [selectedInformacion, setSelectedInformacion] = useState('');
 	const [selectedDenominacionConcurso, setSelectedDenominacionConcurso] = useState('');
   	const [selectedConcurso, setSelectedConcurso] = useState('');
     const [selectedModalidad, setSelectedModalidad] = useState('');
@@ -152,10 +151,15 @@ const CrearConcurso = () => {
 				//history.push(`/concurso_creado/${data.concurso_id}`);
 				//history.push('/concurso_creado/');
 				// navega a la pagina de concurso_creado con todos los datos del formulario como parametros de consulta
-				const queryParams = Object.entries(concurso)
-				.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-				.join('&');
-				navigate(`/concurso_creado?${queryParams}`);
+				// const queryParams = Object.entries(concurso)
+				// .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+				// .join('&');
+				// navigate(`/requisitos_concurso?${queryParams}`);
+				setConcursoId(data.concurso_id);
+				//navega a la pagina de agregar_requisitos_concurso
+				navigate('/concurso_docente/agregar_requisitos_concurso/');
+				//navigate(`/concurso_docente/agregar_requisitos_concurso/${data.concurso_id}`);
+				// console.log("perro");
 		 	})
 		 	.catch(error => { 
 		 		console.error('Error al guardar el concurso:', error);
@@ -164,9 +168,29 @@ const CrearConcurso = () => {
 
 
     const inputText = [
-        {
-            id:"Año",
-            label:"Año Concurso",
+		{
+      id: "Denominacion concurso",
+      label: "Denominacion concurso",
+			valor: selectedDenominacionConcurso,
+            type: 'text',
+			handleChange: (event) => {
+				setSelectedDenominacionConcurso(event.target.value);
+			},
+			width: 11.7,
+    },
+		{
+			id: "Codigo Concurso",
+		 	label: "Codigo Concurso",
+		  valor: selectedCodigoConcurso,
+		  type: 'text',
+		  handleChange: (event) => {
+			  setSelectedCodigoConcurso(event.target.value);
+		  },
+		  width: 5.5,
+	 	},
+		{
+      id:"Año",
+      label:"Año Concurso",
 			valor: selectedAnho, 
 			type: 'text',
 			handleChange: (event) => {
@@ -183,34 +207,39 @@ const CrearConcurso = () => {
 					});
 				}
 			},
+			width: 5.5,
         },
         {
-           	id: "Codigo Concurso",
-            label: "Codigo Concurso",
-		  	valor: selectedCodigoConcurso,
-		  	type: 'text',
-		  	handleChange: (event) => {
-		  		setSelectedCodigoConcurso(event.target.value);
-		  	},
+            id: "Tipo Concurso",
+            label: "Tipo Concurso",
+            valor: selectedConcurso,
+            type: 'select',
+            options: tipoConcurso.map(tipo => tipo.descripcion_tipo_concurso),
+            handleChange: (event) => {
+                setSelectedConcurso(event.target.value);
+                //handleTipoConcursoChange(event);
+            },
+			width: 5.5,
         },
-        // {
-        //     id: "Estado seguimiento concurso",
-        //     label: "Estado seguimiento concurso",
-		// 	valor: selectedEstadoSeguimientoConcurso,
-        //     type: 'text',
-		// 	handleChange: (event) => {
-		// 		setSelectedEstadoSeguimientoConcurso(event.target.value);
-		// 	},
-        // },
+        {
+            id: "Modalidad Concurso",
+            label: "Modalidad Concurso",
+            valor: selectedModalidad,
+            type: 'select',
+            options: modalidadConcurso.map(modalidad => modalidad.descripcion_modalidad_concurso),
+            handleChange: (event) => {
+                setSelectedModalidad(event.target.value);
+                //handleModalidadConcursoChange(event);
+            },
+			width: 5.5,
+        },
 		{
-			id: "Vigencia",
-			labelDesde: "Vigencia desde",
-			labelHasta: "Vigencia hasta",
-			valorDesde: selectedVigenciaDesde,
-			valorHasta: selectedVigenciaHasta,
+			id: "Vigencia desde",
+			label: "Vigencia desde",
+			valor: selectedVigenciaDesde,
 			type: 'date',
-			handleChangeDesde: (event) => {
-			  setSelectedVigenciaDesde(event.target.value);
+			handleChange: (event) => {
+				setSelectedVigenciaDesde(event.target.value);
 			  if (new Date(event.target.value) < new Date(today)) {
 				setErrorMessages({
 					...errorMessages,
@@ -226,28 +255,17 @@ const CrearConcurso = () => {
 					"VigenciaDesde": ""
 				});
 			   }
-
 			},
-			handleChangeHasta: (event) => {
+			width: 5.5,
+		},
+		{
+			id: "Vigencia hasta",
+			label: "Vigencia hasta",
+			valor: selectedVigenciaHasta,
+			type: 'date',
+			handleChange: (event) => {
 				setSelectedVigenciaHasta(event.target.value);
-				// if (new Date(event.target.value) < new Date(selectedVigenciaDesde)) {
-				// 	setErrorMessages({
-				// 		...errorMessages,
-				// 		"VigenciaHasta": "La fecha 'vigente hasta' NO puede ser menor a la fecha 'vigente desde'"
-				// 	});
-				// } else if (new Date(event.target.value) === new Date(selectedVigenciaDesde)) {
-				// 	setErrorMessages({
-				// 		...errorMessages,
-				// 		"VigenciaHasta": "La fecha 'vigente hasta' NO puede ser igual a la fecha 'vigente desde'"
-				// 	});
-				// } else {
-				// 	setErrorMessages({
-				// 		...errorMessages,
-				// 		"VigenciaHasta": ""
-				// 	});
-				// }
-
-				// 
+				
 				if (new Date(event.target.value) < new Date(selectedVigenciaDesde)) {
 					setErrorMessages({
 					 ...errorMessages,
@@ -261,278 +279,87 @@ const CrearConcurso = () => {
 					
 				}
 			},
+			width: 5.5,
 		},
-		
 		{
-            id: "Denominacion concurso",
-            label: "Denominacion concurso",
-			valor: selectedDenominacionConcurso,
-            type: 'text',
+			id:"Es arancelado",
+			type: 'checkbox',
+			label: "Arancelado",
+			valor: esArancelado,
 			handleChange: (event) => {
-				setSelectedDenominacionConcurso(event.target.value);
-			}
-        },
-        {
-            id: "Tipo Concurso",
-            label: "Tipo Concurso",
-            valor: selectedConcurso,
-            type: 'select',
-            options: tipoConcurso.map(tipo => tipo.descripcion_tipo_concurso),
-            handleChange: (event) => {
-                setSelectedConcurso(event.target.value);
-                //handleTipoConcursoChange(event);
-            },
-        },
-        {
-            id: "Modalidad Concurso",
-            label: "Modalidad Concurso",
-            valor: selectedModalidad,
-            type: 'select',
-            options: modalidadConcurso.map(modalidad => modalidad.descripcion_modalidad_concurso),
-            handleChange: (event) => {
-                setSelectedModalidad(event.target.value);
-                //handleModalidadConcursoChange(event);
-            },
-        },
-		// {
-		// 	id: "Estado Concurso",
-		// 	label: "Estado Concurso",
-		// 	valor: estadoConcurso,
-		// 	type: 'checkbox',
-		// 	handleChange: handleCheckboxEstadoConcursoChange,
-		//  }
-		 
-        
+				setEsArancelado(event.target.checked);
+				console.log('hola');
+			},
+			width: 5.5,
+		},
+		{
+			id: "Es postulacion multiple",
+			type: 'checkbox',
+			label: "Postulacion multiple",
+			valor: esPostulacionMultiple,
+			handleChange: (event) => {
+				setEsPostulacionMultiple(event.target.checked);
+			},
+			width: 5.5,
+		},
     ];
     
+	const obtenerFormularioConcurso = () => {
+		return (
+			<FormularioConcurso inputText = {inputText} />	
+			);
+		};
   
     return (
-		<Container
+		<Grid item container 
+			justifyContent="space-between"
+			alignItems="center"
+			xs={11}
 			sx={{
 				display: 'flex',
-				height: '100%',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}>  
-			<Box 
-				component="form"
-				autoComplete="off"
-				sx={{
-				border: 4,
-				width: '80%',
-				//height: '100%',
+				//border: 4,
+				m: 'auto',
+				borderRadius: 2,
+				borderStyle: "double",
+				boxShadow: 4,
 				borderColor: "primary.dark",
-				display: 'flex',
-				flexDirection: 'column',
-				gap: 2,
-				boxSizing: 'border-box',
-				overflow: 'auto',
-			}}>
-			<Typography
-				variant="h1"
-				textAlign="center"
-				color="primary.main"
-				fontWeight="bold"
-				style={{marginTop: 8, fontSize: '3vw'}}
-			>
-					Nuevo Concurso
-			</Typography>
+				backgroundColor: 'primary.contrastText',
+				position:'relative',
+				flexDirection: 'row',
+				//flexWrap: 'wrap',
+				//gap: 1.5,
+				
+			}}>  
+		
+		<Typography
+          variant="h2"
+          textAlign= "center"
+          color="primary.main"
+          fontWeight= "bold"
+          marginTop={2}
+					marginBottom={2}
+		  		mx='auto'
+        > 
+          Nuevo Concurso
+        </Typography> 
 
-		{inputText.map((item) => (
-			item.type === 'date' ? (
-				<Grid container justifyContent="space-between">
-				<Grid item xs={6}>
-					<TextField
-
-					id={`${item.id}Desde`}
-					label={item.labelDesde}
-					type={item.type}
-					variant="outlined"
-					value={item.valorDesde}
-					size={window.innerWidth >= 900 ? "medium" : "small"}
-					helperText={errorMessages["VigenciaDesde"]}
-					required
-					sx={{
-						background: theme.palette.primary.contrastText,
-						width: '98%',
-						marginLeft: 1,
-						marginRight: 1,
-						'& .MuiFormHelperText-root': {
-							color: 'red',
-						}
-					}}
-					onChange={item.handleChangeDesde}
-					/>
-				</Grid>
-				<Grid item xs={6}>
-					<TextField
-					id={`${item.id}Hasta`}
-					label={item.labelHasta}
-					type={item.type}
-					variant="outlined"
-					value={item.valorHasta}
-					size={window.innerWidth >= 900 ? "medium" : "small"}
-					helperText={errorMessages["VigenciaHasta"]}
-					required
-					sx={{
-						background: theme.palette.primary.contrastText,
-						width: '98%',
-						//marginLeft: 1,
-						marginRight: 1,
-						'& .MuiFormHelperText-root': {
-							color: 'red',
-						},
-						'& .MuiOutlinedInput-root': {
-							'& fieldset': {
-							  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-							},
-							'&:hover fieldset': {
-							  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-							},
-							'&.Mui-focused fieldset': {
-							  borderColor: errorMessages["VigenciaHasta"] !== "" ? 'red' : 'inherit',
-							},
-						},
-					}}
-					onChange={item.handleChangeHasta}
-					/>
-				</Grid>
-				</Grid>
-			) : item.type === 'text' ? (
-										<TextField
-											id={item.id}
-											label={item.label}
-											type={item.type}
-											variant="outlined"
-											value={item.valor}
-											size={window.innerWidth >= 900 ? "medium" : "small"}
-											required
-											helperText={errorMessages[item.id=== "Año" ? "Anho": ""]}
-											sx={{
-												background: theme.palette.primary.contrastText,
-												width: item.id === "Año" ? "30%" : "98%",
-												marginLeft: 1,
-												marginRight: 1,
-											}}
-					
-											onChange={item.handleChange}
-										/>
-									
-			) : item.type === 'select' && (
-					<FormControl>
-						<InputLabel id={`${item.id}-label`}>{item.label}</InputLabel>
-						<Select
-							labelId={`${item.id}-label`}
-							id={item.id}
-							label={item.label}
-							value={item.valor}
-							variant="outlined"
-							size={window.innerWidth >= 900 ? 'medium' : 'small'}
-							required
-							sx={{
-								background: theme.palette.primary.contrastText,
-								width: '98%',
-								marginLeft: 1,
-								marginRight: 1,
-							}}
-							onChange={item.handleChange}
-							>
-							{item.options.map(option => (
-								<MenuItem key={option} value={option}>
-								{option}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-						
-			// ) (item.type === 'checkbox' && (
-			// 	<FormControlLabel
-			// 		control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
-			// 		estadoConcurso={estadoConcurso} onChange={handleCheckboxEstadoConcursoChange} />}
-			// 		label="Estado Concurso"
-			// 		labelPlacement="start"
-			// 		style={{textAlign: "left", fontSize: 30}}
-			// 		disableRipple
-			// 		required
-			// 		/>
-			)))}
-
-		<Grid container direction="row" alignItems="flex-start">
-			{/* <Grid item xs={4}>
-				<FormControlLabel 
-					control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 30, borderRadius: '60%'},
-					color: theme.palette.primary.main,
-					'&.Mui-checked': {
-					color: theme.palette.info.main,
-					},
-					}} 
-					estadoConcurso={estadoConcurso} onChange={handleCheckboxEstadoConcursoChange} />}
-					label="Estado Concurso"
-					labelPlacement="start"
-					style={{textAlign: "left", fontSize: 30}}
-					disableRipple
-					required
-				/> 
-			</Grid>*/}
-			<Grid item xs={6}>
-				<FormControlLabel 
-					control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } ,
-					color: theme.palette.primary.main,
-					'&.Mui-checked': {
-					color: theme.palette.info.main,
-					},
-					}}
-					checked={esArancelado} onChange={handleCheckboxEsAranceladoChange} />}
-					label="Es Arancelado"
-					labelPlacement="start"
-					style={{
-						textAlign: "left", 
-						fontSize: 30,
-						marginLeft: 100,
-					}}
-					//disableRipple
-					required
-				/>
-			</Grid>
-			<Grid item xs={6}>
-				<FormControlLabel
-					control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 30 },
-					color: theme.palette.primary.main,
-					'&.Mui-checked': {
-					color: theme.palette.info.main,
-					},
-
-					}} 
-					checked={esPostulacionMultiple} 
-					onChange={handleCheckboxEsPostulacionMultipleChange} />}
-					label="Es Postulacion Multiple"
-					labelPlacement="start"
-					style={{textAlign: "left", fontSize: 30}}
-					//disableRipple
-					required
-					//classes={neonStyles}
-				/>
-			</Grid>
-		</Grid>
-
+		{obtenerFormularioConcurso()}
 
 			<Button size="small" variant="contained" color="primary" 
-				sx={{
-					fontSize: theme.typography.body1, // Ajusta el tamaño de la letra según tus necesidades
-					fontWeight: 'bold',
-					width: '30%',
-					alignSelf: 'center',
-					marginBottom: 2,
-					}}
-					onClick={guardarConcurso}
-					// onClick={() => handlePostularClick(concurso.concurso_id)}
-					>
-						Crear
-			</Button>
-  
-    	</Box>
-		</Container> 
-  
+					sx={{
+						fontSize: theme.typography.body1, // Ajusta el tamaño de la letra según tus necesidades
+						fontWeight: 'bold',
+						width: '15%',
+						alignSelf: 'center',
+						marginBottom: 2,
+						mx:'auto'
+						}}
+						onClick={guardarConcurso}
+						>
+							Crear
+				</Button>
+		</Grid> 
+		
     );
 };
 export default CrearConcurso;

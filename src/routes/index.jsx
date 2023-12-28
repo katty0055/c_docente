@@ -1,17 +1,14 @@
 //componente donde estan las rutas
 import { createBrowserRouter, RouterProvider} from "react-router-dom";
-//import PostulacionForm from "../views/Postulacion/PostulacionForm";
 import Postulacion from "../views/Postulacion";
 import Pagina from "../views/Pagina/Pagina";
 import CargarDocumentos from "../views/CargarDocumentos";
-//import ConcursoCard from "../components/ConcursosCard/ConcursoCard";
 import Login from "../views/Inicio";
 import CrearConcurso from "../views/Concurso/CrearConcurso";
-import ConcursoCreado from "../views/Concurso/ConcursoCreado";
+import AgregarRequisitos from "../views/Concurso/AgregarRequisitos";
 import Editar from "../views/Concurso/editar";
 import Postulaciones from "../views/RecuperarPostulaciones";
 import CarpetaContenido from "../views/RecuperarPostulaciones/CarpetaContenido";
-//import Documento from "../views/RecuperarPostulaciones/PDFViewer";
 
 const router = createBrowserRouter([
     // Definición de rutas
@@ -33,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'recuperar_postulaciones/',
-                element: <Postulaciones/>,                
+                element: <Postulaciones/>,
             },
             {
                 path: 'contenido',
@@ -41,9 +38,12 @@ const router = createBrowserRouter([
             },
             {
                 path: 'crear_concurso/',
-                element: <CrearConcurso/>
+                element: <CrearConcurso/>,
             },
-           
+            {
+                path: 'agregar_requisitos_concurso/',
+                element: <AgregarRequisitos/>
+            },           
         ],
     },
     {
@@ -54,14 +54,11 @@ const router = createBrowserRouter([
         path: 'concurso_creado/',
         element: <ConcursoCreado/>,
 
-    },
+    },     
     {
         path: 'editar_concurso/',
         element: <Editar/>,
     },
-    
-        
-    
 ]);
 
 const MyRoutes = () => {

@@ -32,6 +32,7 @@ const Postulacion = () => {
   const [direcciones, setDirecciones] = useState(['---']);
   const [areas, setAreas] = useState(['---']);  
   const [turnos, setTurnos] = useState(['---']); 
+  const [sedes, setSedes] = useState(['No tiene puestos asociados']); 
   
   const { userId } = useUserData();
   const [datosPostulacion,setDatosPostulacion] = useState({
@@ -43,20 +44,40 @@ const Postulacion = () => {
     "puesto": null,  
   });
 
+
+  console.log('concurso numero', concursoId)
+
+
+
+
   useEffect(() => {
     const prevConcursoId = concursoId;
-    fetch(`http://${localhost}:8000/concurso/puesto/?concurso_id=${concursoId}`)
+    fetch(`http://${localhost}:8000/concurso/puesto/`)
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         // Verifica si el valor de concursoId ha cambiado antes de actualizar el estado
       if (prevConcursoId === concursoId) {
-        setPuestos(data);  // Almacena los puestos en el estado
+        console.log('concursoId:', concursoId);
+        const filteredPuestos = data.filter(item => item.concurso.concurso_id == concursoId);
+         // Almacena los puestos en el estado
+        console.log('filteredPuestos:', filteredPuestos);
+        setPuestos(filteredPuestos);   
+          
       }
       })
       .catch(error => {
         console.error('Error al obtener los puestos:', error);
       });
   }, [concursoId]);
+
+  useEffect(() => {
+    if (puestos.length > 0) {
+      setSedes([...new Set(puestos.map(puesto => puesto.sede.descripcion_sede))]); // También puedes llamar a la función aquí si es necesario en otros casos
+      console.log('hola')
+    }
+   
+  }, [puestos]);
 
   const handleSedeChange = (event) => {
     const selectedSede = event.target.value;
@@ -123,6 +144,7 @@ const Postulacion = () => {
 
   };
 
+
   
 
   const getFormData= () => {
@@ -150,7 +172,7 @@ const Postulacion = () => {
    }
    };
 
-  const sedesUnicas = [...new Set(puestos.map(puesto => puesto.sede.descripcion_sede))];
+ 
 
 
   const inputTextPuesto = [
@@ -177,7 +199,7 @@ const Postulacion = () => {
       label:"Sede",
       valor: selectedSede, 
       type: 'select',
-      options: sedesUnicas,    
+      options: sedes,    
       handleChange: (event) => {
         setSelectedSede(event.target.value);  
         handleSedeChange(event);   

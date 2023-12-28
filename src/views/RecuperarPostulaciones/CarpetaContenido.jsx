@@ -25,11 +25,7 @@ const ModalArchivo = ({ archivoNombre, direccionUrl, onClose, contenidoArchivo }
 
 const CarpetaContenido = () => {
   const location = useLocation();
-<<<<<<< HEAD
-const nombreArchivo = location.state ? location.state.nombreArchivo : 'Nombre de archivo predeterminado';
-=======
   const nombreArchivo = location.state?.nombreArchivo; // Usar optional chaining
->>>>>>> origin/main
   const [archivos, setArchivos] = useState([]);
   const [nombreArchivoSeleccionado, setNombreArchivoSeleccionado] = useState(null);
   const [contenidoArchivo, setContenidoArchivo] = useState(null);

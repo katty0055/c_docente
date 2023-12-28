@@ -9,8 +9,9 @@ export const useUserData = create((set) => ({
 
 //Hook para gestionar datos de concurso
 export const useConcursoData = create((set) => ({
-  concursoData: {}, // Puedes inicializarlo con un objeto vacío o con los datos iniciales que necesites.
+  concursoData: null, // Puedes inicializarlo con un objeto vacío o con los datos iniciales que necesites.
   setConcursoData: (data) => set({ concursoData: data }),
+  clearConcursoData: () => set({ concursoData: null })
 }));
 
 // export const useDocumentoData = create((set) => ({
