@@ -152,7 +152,7 @@ const editar = () => {
             label:"Año Concurso",
 			valor: estados.anho_concurso,//datoConcurso.anho_concurso, 
 			type: 'text',
-            width: 5.3,
+            //width: 5.3,
             // handleChange: (event) => {
             //     setDatoConcurso(prevState => ({
             //       ...prevState,
