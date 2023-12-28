@@ -158,9 +158,8 @@ const CrearConcurso = () => {
 				// navigate(`/requisitos_concurso?${queryParams}`);
 				setConcursoId(data.concurso_id);
 				//navega a la pagina de agregar_requisitos_concurso
-				navigate('/concurso_docente/agregar_requisitos_concurso/');
-				//navigate(`/concurso_docente/agregar_requisitos_concurso/${data.concurso_id}`);
-				// console.log("perro");
+				//navigate('/concurso_docente/agregar_requisitos_concurso/');
+				navigate('/concurso_docente/agregar_requisitos_concurso/', { state: { concursoId: data.concurso_id } });
 		 	})
 		 	.catch(error => { 
 		 		console.error('Error al guardar el concurso:', error);

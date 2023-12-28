@@ -424,7 +424,7 @@ function union(a, b) {
 }
 
 function AgregarRequisitos() {
-
+  const localhost = 'desarrollodtic.pol.una.py';
   const location = useLocation();
   const concursoId = location.state && location.state.concursoId;
   const [checked, setChecked] = useState([]);
@@ -437,11 +437,13 @@ function AgregarRequisitos() {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
   
+ 
 
   useEffect(() => {
+    console.log('el id:', concursoId);
            const obtenerRequisitos = async () => {
              try {
-               const data = await apiService.get('http://127.0.0.1:8000/concurso/requisito/');
+               const data = await apiService.get(`http://${localhost}:8000/concurso/requisito/`);
                //mapea las descripciones de los requisitos
                const descripciones = data.map(requisito => requisito.descripcion_requisito);
                setLeft(descripciones);
@@ -562,7 +564,8 @@ function AgregarRequisitos() {
     </Card>
   );
 
-  const handleSaveRequisitos = async () => { 
+  //const handleSaveRequisitos = async () => {
+    const handleSaveRequisitos = async () => {  
     try {
       //const ids = right.map(requisito => requisito.requisito_id);
       const ids = right.map(descripcion => {
@@ -573,18 +576,22 @@ function AgregarRequisitos() {
       //   requisito: ids,
       //   concurso: concursoId,
       // }
-
+      if (concursoId !== null) {
+        console.log('el concurso es', concursoId);
       for (let i = 0; i < ids.length; i++) {
         const concursoRequisito = {
           requisito: ids[i],
           concurso: concursoId,
         };
    
-        await apiService.post('http://127.0.0.1:8000/concurso/concursorequisito/', concursoRequisito);
+        await apiService.post(`http://${localhost}:8000/concurso/concursorequisito/`, concursoRequisito);
       }
+    } else {
+      console.log('no existe el concurso', concursoId);
+    }
 
       console.log('estos son los ids',ids);
-
+      console.log("no existe", concursoId);
       //console.log(data);
       console.log('los requisitos se guardaron correctamente');
     } catch (error) {

@@ -51,11 +51,6 @@ const router = createBrowserRouter([
         element: <CargarDocumentos/>
     },
     {
-        path: 'concurso_creado/',
-        element: <ConcursoCreado/>,
-
-    },     
-    {
         path: 'editar_concurso/',
         element: <Editar/>,
     },
