@@ -6,12 +6,13 @@ import FormularioConcurso from './FormularioConcurso';
 
 
 const editar = () => {
-    const concursoId = 9;
+    const concursoId = 42;
+	const localhost = 'desarrollodtic.pol.una.py';
 	//const today = new Date(2023, 11, 24);
 	// const formattedDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
 	// const opciones = {day: '2-digit', month: '2-digit', year: 'numeric'};
 	const today = new Date().toISOString().slice(0, 10);
-	console.log(today);
+	//console.log(today);
     // const [estados, setEstados] = useState({
     //     "anho_concurso": "2023",
     //     "codigo_concurso": "ASUNCION-2023-1",
@@ -45,6 +46,7 @@ const editar = () => {
 
     const [datoConcurso, setDatoConcurso] = useState(
         {
+			"concurso_id": "",
             "anho_concurso": "",
             "codigo_concurso": "",
             "estado_seguimiento_concurso": "",
@@ -62,7 +64,7 @@ const editar = () => {
 	useEffect(() => {
 		const obtenerConcurso = async () => {
 			try {
-				const data = await apiService.get(`http://127.0.0.1:8000/concurso/concurso/${concursoId}`);
+				const data = await apiService.get(`http://${localhost}:8000/concurso/concurso/${concursoId}`);
 				setDatoConcurso(data);
 				setEstados(data);
 				console.log(data);
@@ -72,11 +74,11 @@ const editar = () => {
 		};
 		obtenerConcurso();
 	}, [concursoId]);
-
+	console.log(estados.modalidad_concurso);
 	useEffect(() => {
 		const obtenerTiposConcursos = async () => {
 			try {
-				const data = await apiService.get('http://127.0.0.1:8000/concurso/tipoconcurso/');
+				const data = await apiService.get(`http://${localhost}:8000/concurso/tipoconcurso/`);
 				setTipoConcurso(data);
 				//setTipoConcurso(await data.json());
 				console.log(data);	
@@ -86,11 +88,12 @@ const editar = () => {
 		};
 		obtenerTiposConcursos();
 	}, []);
+	//console.log(estados.tipo_concurso);
 
 	useEffect(() => {
 		const obtenerModalidadesConcursos = async () => {
 			try {
-				const data = await apiService.get('http://127.0.0.1:8000/concurso/modalidadconcurso/');
+				const data = await apiService.get(`http://${localhost}:8000/concurso/modalidadconcurso/`);
 				setModalidadConcurso(data);
 			} catch (error) {
 				console.error('Error al obtener las modalidades de concurso:', error);
@@ -100,6 +103,9 @@ const editar = () => {
 		obtenerModalidadesConcursos();
 
 	}, []);
+
+	console.log(tipoConcurso);
+	console.log(estados.tipo_concurso);
 
 	const inputText = [
 		{
@@ -119,7 +125,7 @@ const editar = () => {
 			width: 5.5,
         },
 		{
-			id: "Estado seguimiento concurso",
+		  id: "Estado seguimiento concurso",
 		  label: "Estado seguimiento concurso",
 		  valor: estados.estado_seguimiento_concurso,//datoConcurso.estado_seguimiento_concurso,
 		  type: 'text',
@@ -185,41 +191,48 @@ const editar = () => {
 			width: 5.5,
         },
 		{
-            id: "Tipo Concurso",
-            label: "Tipo Concurso",
-			valor: tipoConcurso.length > 0 && estados.tipo_concurso 
-			? tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso 
-			: "",
-			//valor: ((tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso)) || {}).descripcion_tipo_concurso,
-			//valor: tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso,
-			//valor: tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso,//datoConcurso.tipo_concurso,)
-            //valor: estados.tipo_concurso,//datoConcurso.tipo_concurso,
-            type: 'select',
-            options: tipoConcurso.map(tipo => tipo.descripcion_tipo_concurso),
-            handleChange: (event) => {
-                const nuevoTipoConcurso = event.target.value;
-                
-				setEstados(prevState => ({
-					...prevState,
-						tipo_concurso: nuevoTipoConcurso,
-				}));
-            },
-			width: 5.5,
-        },
+      id: "Tipo Concurso",
+      label: "Tipo Concurso",
+    //   //valor: tipoConcurso.length > 0 && estados.tipo_concurso
+    //     ? (tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso) || {}).descripcion_tipo_concurso
+    //     : "",
+		valor: tipoConcurso.length > 0 && estados.tipo_concurso
+ ? tipoConcurso.some(tipo => tipo.tipo_concurso_id === estados.tipo_concurso)
+   ? tipoConcurso.find(tipo => tipo.tipo_concurso_id === estados.tipo_concurso).descripcion_tipo_concurso
+   : ""
+ : "",
+
+      type: 'select',
+      options: tipoConcurso.map(tipo => tipo.descripcion_tipo_concurso),
+      handleChange: (event) => {
+        const nuevoTipoConcurso = event.target.value;
+		//const descripcionSeleccionada = event.target.value;
+ 		const tipoSeleccionado = tipoConcurso.find(tipo => tipo.descripcion_tipo_concurso === nuevoTipoConcurso);
+		console.log(nuevoTipoConcurso);
+        setEstados(prevState => ({
+          ...prevState,
+          tipo_concurso: tipoSeleccionado.tipo_concurso_id,
+        }));
+      },
+      width: 5.5,
+    },
         {
             id: "Modalidad Concurso",
             label: "Modalidad Concurso",
             //valor: estados.modalidad_concurso,//datoConcurso.modalidad_concurso,
 			valor: modalidadConcurso.length > 0 && estados.modalidad_concurso
-			? modalidadConcurso.find(modalidad => modalidad.modalidad_concurso_id === estados.modalidad_concurso).descripcion_modalidad_concurso : "",
+  ? (modalidadConcurso.find(modalidad => modalidad.modalidad_concurso_id === estados.modalidad_concurso) || {}).descripcion_modalidad_concurso : "",
+			// valor: modalidadConcurso.length > 0 && estados.modalidad_concurso
+			// ? modalidadConcurso.find(modalidad => modalidad.modalidad_concurso_id === estados.modalidad_concurso).descripcion_modalidad_concurso : "",
             type: 'select',
             options: modalidadConcurso.map(modalidad => modalidad.descripcion_modalidad_concurso),
             handleChange: (event) => {
                 const nuevaModalidadConcurso = event.target.value;
+				const modalidadSeleccionada = modalidadConcurso.find(modalidad => modalidad.descripcion_modalidad_concurso === nuevaModalidadConcurso);
                 
 				setEstados(prevState => ({
 					...prevState,
-						modalidad_concurso: nuevaModalidadConcurso,
+						modalidad_concurso: modalidadSeleccionada.modalidad_concurso_id,
 				}));
             },
 			width: 5.5,
@@ -234,21 +247,21 @@ const editar = () => {
 			handleChange: (event) => {
 				//setSelectedVigenciaDesde(event.target.value);
 				const vigenciaDesde = event.target.value;
-			  if (new Date(event.target.value) < new Date(today)) {
-				setErrorMessages({
-					...errorMessages,
-					"VigenciaDesde": "La fecha 'vigente desde' NO puede ser menor a la fecha actual"});
-			  	} else if (new Date(event.target.value) > new Date(selectedVigenciaHasta)) {
-					setErrorMessages({
-						...errorMessages,
-						"VigenciaDesde": "La fecha 'vigente desde' NO puede ser mayor a la fecha 'vigente hasta'"
-					});
-				} else {
-				setErrorMessages({
-					...errorMessages,
-					"VigenciaDesde": ""
-				});
-			   }
+			//   if (new Date(event.target.value) < new Date(today)) {
+			// 	setErrorMessages({
+			// 		...errorMessages,
+			// 		"VigenciaDesde": "La fecha 'vigente desde' NO puede ser menor a la fecha actual"});
+			//   	} else if (new Date(event.target.value) > new Date(selectedVigenciaHasta)) {
+			// 		setErrorMessages({
+			// 			...errorMessages,
+			// 			"VigenciaDesde": "La fecha 'vigente desde' NO puede ser mayor a la fecha 'vigente hasta'"
+			// 		});
+			// 	} else {
+			// 	setErrorMessages({
+			// 		...errorMessages,
+			// 		"VigenciaDesde": ""
+			// 	});
+			//    }
 
 			   	setEstados(prevState => ({
 					...prevState,
@@ -267,18 +280,18 @@ const editar = () => {
 				//setSelectedVigenciaHasta(event.target.value);
 				const vigenciaHasta = event.target.value;
 
-				if (new Date(event.target.value) < new Date(selectedVigenciaDesde)) {
-					setErrorMessages({
-					 ...errorMessages,
-					 "VigenciaHasta": "La fecha 'vigente hasta' NO puede ser menor a la fecha 'vigente desde'"
-					});
-				} else {
-					setErrorMessages({
-					 ...errorMessages,
-					 "VigenciaHasta": ""
-					});
+				// if (new Date(event.target.value) < new Date(selectedVigenciaDesde)) {
+				// 	setErrorMessages({
+				// 	 ...errorMessages,
+				// 	 "VigenciaHasta": "La fecha 'vigente hasta' NO puede ser menor a la fecha 'vigente desde'"
+				// 	});
+				// } else {
+				// 	setErrorMessages({
+				// 	 ...errorMessages,
+				// 	 "VigenciaHasta": ""
+				// 	});
 					
-				}
+				// }
 
 				setEstados(prevState => ({
 					...prevState,
@@ -289,15 +302,34 @@ const editar = () => {
 			width: 5.5,
 		},
 		{
+			id: "Estado concurso",
+			type: 'checkbox',
+			label: "Estado concurso",
+			valor: estados.estado_concurso,//datoConcurso.estado_concurso,
+			handleChange: (event) => {
+				setEstados(prevState => ({
+					...prevState,
+						estado_concurso: event.target.checked,
+				}));
+			},
+			width: 3,
+			checked: estados.estado_concurso,//datoConcurso.estado_concurso,
+		},
+		{
 			id:"Es arancelado",
 			type: 'checkbox',
 			label: "Arancelado",
 			valor: estados.es_arancelado,//datoConcurso.es_arancelado
 			handleChange: (event) => {
-				setEsArancelado(event.target.checked);
-				console.log('hola');
+				// setEsArancelado(event.target.checked);
+				// console.log('hola');
+				setEstados(prevState => ({
+					...prevState,
+						es_arancelado: event.target.checked,
+				}));
 			},
-			width: 5.5,
+			width: 3,
+			checked: estados.es_arancelado,//datoConcurso.es_arancelado,
 		},
 		{
 			id: "Es postulacion multiple",
@@ -305,17 +337,63 @@ const editar = () => {
 			label: "Postulacion multiple",
 			valor: estados.es_postulacion_multiple,//datoConcurso.es_postulacion_multiple,
 			handleChange: (event) => {
-				setEsPostulacionMultiple(event.target.checked);
+				//setEsPostulacionMultiple(event.target.checked);
+				
+				setEstados(prevState => ({
+						...prevState,
+						es_postulacion_multiple: event.target.checked,
+				}));
 			},
-			width: 5.5,
+			width: 3,
+			checked: estados.es_postulacion_multiple,//datoConcurso.es_postulacion_multiple,
 		},
 	];
+
+
+	const handleEditConcurso = () => {
+		const editarConcurso ={
+			//"concurso_id": datoConcurso.concurso_id,
+			"concurso_id": concursoId,
+			"anho_concurso": estados.anho_concurso ? estados.anho_concurso : datoConcurso.anho_concurso,
+			"codigo_concurso": estados.codigo_concurso ? estados.codigo_concurso : datoConcurso.codigo_concurso,
+			"estado_seguimiento_concurso": estados.estado_seguimiento_concurso ? estados.estado_seguimiento_concurso : datoConcurso.estado_seguimiento_concurso,
+			"estado_concurso": estados.estado_concurso ? estados.estado_concurso : datoConcurso.estado_concurso,
+			"es_arancelado": estados.es_arancelado,
+			"vigencia_desde": estados.vigencia_desde ? estados.vigencia_desde : datoConcurso.vigencia_desde,
+			"vigencia_hasta": estados.vigencia_hasta ? estados.vigencia_hasta : datoConcurso.vigencia_hasta,
+			"denominacion_conc": estados.denominacion_conc ? estados.denominacion_conc : datoConcurso.denominacion_conc,
+			"es_postulacion_multiple": estados.es_postulacion_multiple,
+			// "tipo_concurso": tipoConcurso.find(tipo => tipo.descripcion_tipo_concurso === estados.tipo_concurso ? estados.tipo_concurso : datoConcurso.tipo_concurso).tipo_concurso_id,
+			"tipo_concurso": estados.tipo_concurso ? estados.tipo_concurso : datoConcurso.tipo_concurso,
+			"modalidad_concurso": estados.modalidad_concurso ? estados.modalidad_concurso : datoConcurso.modalidad_concurso,
+		};
+		
+		console.log(editarConcurso);
+		setDatoConcurso(editarConcurso);
+		console.log(datoConcurso);
+		fetch(`http://${localhost}:8000/concurso/concurso/`, {
+			method: 'POST',
+		 	headers: {
+		 		'Content-Type': 'application/json',
+		 	},
+		 	body: JSON.stringify(editarConcurso),
+		 })
+		 	.then(response => response.json())
+		 	.then(data => {
+		 		console.log(data);
+				console.log('Concurso editado con éxito');
+				//navigate('/concurso_docente/agregar_requisitos_concurso/', { state: { concursoId: data.concurso_id } });
+		 	})
+		 	.catch(error => { 
+		 		console.error('Error al guardar el concurso:', error);
+		 	});	
+	};
 
 	const obtenerFormularioConcurso = () => {
 		return (
 			<FormularioConcurso inputText = {inputText} />	
 			);
-		};
+	};
   
     return (
 		<Grid item container 
@@ -361,7 +439,7 @@ const editar = () => {
 						marginBottom: 2,
 						mx:'auto'
 						}}
-						//onClick={editarConcurso}
+						onClick={handleEditConcurso}
 						>
 							Guadar cambios
 				</Button>

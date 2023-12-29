@@ -13,10 +13,11 @@ import EditarConcurso from './EditarConcurso'
 import { apiService } from '../../api/apiService';
 import { Global } from '@emotion/react';
 import FormularioConcurso from './FormularioConcurso';
+import { es } from 'date-fns/locale';
 
 const CrearConcurso = () => {
 	const localhost = 'desarrollodtic.pol.una.py';
-
+	const estadoSeguimiento = 'Inicio';
 	const navigate = useNavigate();
 	const [errorMessages, setErrorMessages] = useState([]);
   const today = new Date().toISOString().slice(0, 10);
@@ -25,7 +26,7 @@ const CrearConcurso = () => {
 	const [selectedAnho, setSelectedAnho] = useState(anhoActual);
 	const [concursoId, setConcursoId] = useState(null);
 	const [selectedCodigoConcurso, setSelectedCodigoConcurso] = useState('');
-	const [selectedEstadoSeguimientoConcurso, setSelectedEstadoSeguimientoConcurso] = useState('');
+	const [selectedEstadoSeguimientoConcurso, setSelectedEstadoSeguimientoConcurso] = useState(estadoSeguimiento);
 	// const [selectedInformacion, setSelectedInformacion] = useState('');
 	const [selectedDenominacionConcurso, setSelectedDenominacionConcurso] = useState('');
   	const [selectedConcurso, setSelectedConcurso] = useState('');
@@ -52,17 +53,17 @@ const CrearConcurso = () => {
 		"info": null
 	})
 
-    const handleCheckboxEstadoConcursoChange = (event) => {
-      setEstadoConcurso(event.target.checked);
-    };
+    // const handleCheckboxEstadoConcursoChange = (event) => {
+    //   setEstadoConcurso(event.target.checked);
+    // };
 
-    const handleCheckboxEsAranceladoChange = (event) => {
-      setEsArancelado(event.target.checked);
-    };
+    // const handleCheckboxEsAranceladoChange = (event) => {
+    //   setEsArancelado(event.target.checked);
+    // };
 
-    const handleCheckboxEsPostulacionMultipleChange = (event) => {
-      setEsPostulacionMultiple(event.target.checked);
-    }
+    // const handleCheckboxEsPostulacionMultipleChange = (event) => {
+    //   setEsPostulacionMultiple(event.target.checked);
+    // }
 
 
 	// useEffect(() => { 

@@ -114,6 +114,7 @@ const FormularioConcurso = ({inputText}) => {
 					label={item.label} 
 					onChange={item.handleChange}
 					value={item.valor}
+					checked={item.valor}
 					/>
 				
 				</Grid>	
